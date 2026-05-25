@@ -1,0 +1,11 @@
+botbuilder-core==4.16.2
+botbuilder-integration-aiohttp==4.16.2
+aiohttp==3.10.5
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+chromadb>=1.5.0
+google-generativeai>=0.8.0
+requests>=2.31.0
+python-dotenv==1.0.1
+pydantic==2.7.4
+numpy<2.0.0

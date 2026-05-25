@@ -1,0 +1,246 @@
+{
+  "scenarios": [
+    {
+      "keywords": ["dwg", "download", "siteplan", "greenthink", "sdt", "edt", "dxf"],
+      "logs": [
+        {
+          "timestamp": "2025-05-20T14:32:11.000Z",
+          "severity": "ERROR",
+          "service": "solargraf-gateway",
+          "trace_id": "abc123def456",
+          "span_id": "span_001",
+          "message": "Error processing DWG download request for project 58291",
+          "attributes": {
+            "endpoint": "GET /projects/58291/proposals/12345/siteplan",
+            "user_id": "user_9182",
+            "company_id": "comp_421"
+          }
+        },
+        {
+          "timestamp": "2025-05-20T14:32:11.200Z",
+          "severity": "ERROR",
+          "service": "solargraf-gateway",
+          "trace_id": "abc123def456",
+          "span_id": "span_002",
+          "message": "Object deserialization failed in greenthink service. Error message: 'Site geometry version not provided'",
+          "attributes": {
+            "function": "getSiteplan",
+            "file": "libs/greenthink/index.js",
+            "error_type": "DeserializationError"
+          }
+        },
+        {
+          "timestamp": "2025-05-20T14:32:11.300Z",
+          "severity": "WARN",
+          "service": "solargraf-gateway",
+          "trace_id": "abc123def456",
+          "span_id": "span_003",
+          "message": "getSiteGeometry returned a pending Promise instead of resolved data. Possible missing await.",
+          "attributes": {
+            "function": "getSiteplan",
+            "file": "libs/greenthink/index.js",
+            "returned_type": "Promise"
+          }
+        },
+        {
+          "timestamp": "2025-05-20T14:32:11.400Z",
+          "severity": "ERROR",
+          "service": "greenthink-service",
+          "trace_id": "abc123def456",
+          "span_id": "span_004",
+          "message": "GreenThinkDrawing.transformSiteGeometry failed: Cannot read properties of undefined (reading 'version')",
+          "attributes": {
+            "stack_trace": "TypeError: Cannot read properties of undefined (reading 'version')\n    at GreenThinkDrawing.transformSiteGeometry (libs/greenthink/GreenThinkDrawing.js:142)\n    at getSiteplan (libs/greenthink/index.js:58)"
+          }
+        }
+      ]
+    },
+    {
+      "keywords": ["auto-design", "auto design", "autodesign", "timeout", "panel placement", "panelplacement"],
+      "logs": [
+        {
+          "timestamp": "2025-05-20T10:15:00.000Z",
+          "severity": "INFO",
+          "service": "solargraf-gateway",
+          "trace_id": "def789ghi012",
+          "span_id": "span_010",
+          "message": "Auto-design pipeline started for proposal 67890",
+          "attributes": {
+            "endpoint": "POST /projects/45678/proposals/67890/autoDesign",
+            "design_mode": "full"
+          }
+        },
+        {
+          "timestamp": "2025-05-20T10:15:45.000Z",
+          "severity": "WARN",
+          "service": "solargraf-gateway",
+          "trace_id": "def789ghi012",
+          "span_id": "span_011",
+          "message": "Panel placement phase running longer than expected (45s elapsed, limit: 60s)",
+          "attributes": {
+            "phase": "panelPlacement",
+            "file": "libs/autoDesign/src/phases/panelPlacement.ts",
+            "elapsed_ms": 45000
+          }
+        },
+        {
+          "timestamp": "2025-05-20T10:16:05.000Z",
+          "severity": "ERROR",
+          "service": "solargraf-gateway",
+          "trace_id": "def789ghi012",
+          "span_id": "span_012",
+          "message": "Auto-design pipeline failed at phase 'panelPlacement': Operation timed out after 60000ms",
+          "attributes": {
+            "phase": "panelPlacement",
+            "file": "libs/autoDesign/src/pipeline.ts",
+            "error_type": "TimeoutError",
+            "completed_phases": ["roofDetection", "azimuth", "trees", "obstructions", "walls", "3D", "shading"]
+          }
+        },
+        {
+          "timestamp": "2025-05-20T10:16:05.100Z",
+          "severity": "ERROR",
+          "service": "design-tool",
+          "trace_id": "def789ghi012",
+          "span_id": "span_013",
+          "message": "SmartDesigner.placeAllPanels: Infinite loop detected — roof face segmentation produced overlapping regions causing retry loop",
+          "attributes": {
+            "file": "src/smart-designer/panel-placer.ts",
+            "roof_faces_count": 12,
+            "overlapping_faces": [3, 7]
+          }
+        }
+      ]
+    },
+    {
+      "keywords": ["3d", "rendering", "render", "drawing3d", "crash", "three", "webgl"],
+      "logs": [
+        {
+          "timestamp": "2025-05-21T09:00:12.000Z",
+          "severity": "ERROR",
+          "service": "solargraf-gateway",
+          "trace_id": "ghi345jkl678",
+          "span_id": "span_020",
+          "message": "3D rendering failed for proposal 34567",
+          "attributes": {
+            "endpoint": "POST /projects/23456/proposals/34567/3d-render",
+            "user_id": "user_5512"
+          }
+        },
+        {
+          "timestamp": "2025-05-21T09:00:12.300Z",
+          "severity": "ERROR",
+          "service": "solargraf-gateway",
+          "trace_id": "ghi345jkl678",
+          "span_id": "span_021",
+          "message": "TypeError: Cannot read properties of null (reading 'vertices') in Drawing3D.buildMesh",
+          "attributes": {
+            "file": "libs/drawing3d/src/meshBuilder.js",
+            "function": "buildMesh",
+            "error_type": "TypeError"
+          }
+        },
+        {
+          "timestamp": "2025-05-21T09:00:12.100Z",
+          "severity": "WARN",
+          "service": "solargraf-gateway",
+          "trace_id": "ghi345jkl678",
+          "span_id": "span_022",
+          "message": "Geometry object for roof face ID 5 is null — no vertices data found in MongoDB",
+          "attributes": {
+            "roof_face_id": 5,
+            "project_id": 23456,
+            "data_source": "mongodb"
+          }
+        }
+      ]
+    },
+    {
+      "keywords": ["financial", "calculation", "utility", "rate", "division", "genability", "nan", "infinity"],
+      "logs": [
+        {
+          "timestamp": "2025-05-21T11:22:30.000Z",
+          "severity": "ERROR",
+          "service": "financial-analysis",
+          "trace_id": "mno901pqr234",
+          "span_id": "span_030",
+          "message": "Financial calculation returned NaN for proposal 89012",
+          "attributes": {
+            "endpoint": "POST /projects/78901/proposals/89012/financial-analysis",
+            "calculation_type": "savings_estimate"
+          }
+        },
+        {
+          "timestamp": "2025-05-21T11:22:30.100Z",
+          "severity": "ERROR",
+          "service": "financial-analysis",
+          "trace_id": "mno901pqr234",
+          "span_id": "span_031",
+          "message": "Division by zero in utility rate annualization: annual_kwh is 0 for utility_rate_id 'gen_rate_5521'",
+          "attributes": {
+            "file": "libs/financialCalculator/src/utilityRate.js",
+            "function": "annualizeRate",
+            "utility_rate_id": "gen_rate_5521",
+            "annual_kwh": 0
+          }
+        },
+        {
+          "timestamp": "2025-05-21T11:22:29.800Z",
+          "severity": "WARN",
+          "service": "financial-analysis",
+          "trace_id": "mno901pqr234",
+          "span_id": "span_032",
+          "message": "Genability API returned empty consumption profile for address — defaulting annual_kwh to 0",
+          "attributes": {
+            "file": "libs/genability/index.js",
+            "address": "123 Test St, Unknown City",
+            "genability_account_id": "acc_88210"
+          }
+        }
+      ]
+    },
+    {
+      "keywords": ["screenshot", "puppeteer", "browser", "headless", "capture", "image", "proposal image"],
+      "logs": [
+        {
+          "timestamp": "2025-05-22T08:45:00.000Z",
+          "severity": "ERROR",
+          "service": "solargraf-gateway",
+          "trace_id": "stu567vwx890",
+          "span_id": "span_040",
+          "message": "Screenshot generation failed for proposal 11223",
+          "attributes": {
+            "endpoint": "POST /projects/10111/proposals/11223/screenshot",
+            "user_id": "user_7723"
+          }
+        },
+        {
+          "timestamp": "2025-05-22T08:45:02.000Z",
+          "severity": "ERROR",
+          "service": "solargraf-gateway",
+          "trace_id": "stu567vwx890",
+          "span_id": "span_041",
+          "message": "Puppeteer browser launch failed: Error: Failed to launch the browser process — Could not find expected browser revision",
+          "attributes": {
+            "file": "libs/designToolScreenshot/src/screenshotService.js",
+            "function": "captureScreenshot",
+            "error_type": "BrowserLaunchError",
+            "chromium_revision": "missing"
+          }
+        },
+        {
+          "timestamp": "2025-05-22T08:45:02.100Z",
+          "severity": "WARN",
+          "service": "solargraf-gateway",
+          "trace_id": "stu567vwx890",
+          "span_id": "span_042",
+          "message": "Chromium binary not found at expected path. Browser bundle may not have been installed correctly.",
+          "attributes": {
+            "expected_path": "node_modules/puppeteer/.local-chromium",
+            "file": "libs/designToolScreenshot/src/screenshotService.js"
+          }
+        }
+      ]
+    }
+  ]
+}
