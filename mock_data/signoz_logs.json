@@ -1,7 +1,15 @@
 {
   "scenarios": [
     {
-      "keywords": ["dwg", "download", "siteplan", "greenthink", "sdt", "edt", "dxf"],
+      "keywords": [
+        "dwg",
+        "download",
+        "siteplan",
+        "greenthink",
+        "sdt",
+        "edt",
+        "dxf"
+      ],
       "logs": [
         {
           "timestamp": "2025-05-20T14:32:11.000Z",
@@ -29,19 +37,7 @@
             "error_type": "DeserializationError"
           }
         },
-        {
-          "timestamp": "2025-05-20T14:32:11.300Z",
-          "severity": "WARN",
-          "service": "solargraf-gateway",
-          "trace_id": "abc123def456",
-          "span_id": "span_003",
-          "message": "getSiteGeometry returned a pending Promise instead of resolved data. Possible missing await.",
-          "attributes": {
-            "function": "getSiteplan",
-            "file": "libs/greenthink/index.js",
-            "returned_type": "Promise"
-          }
-        },
+
         {
           "timestamp": "2025-05-20T14:32:11.400Z",
           "severity": "ERROR",
@@ -56,7 +52,14 @@
       ]
     },
     {
-      "keywords": ["auto-design", "auto design", "autodesign", "timeout", "panel placement", "panelplacement"],
+      "keywords": [
+        "auto-design",
+        "auto design",
+        "autodesign",
+        "timeout",
+        "panel placement",
+        "panelplacement"
+      ],
       "logs": [
         {
           "timestamp": "2025-05-20T10:15:00.000Z",
@@ -94,7 +97,15 @@
             "phase": "panelPlacement",
             "file": "libs/autoDesign/src/pipeline.ts",
             "error_type": "TimeoutError",
-            "completed_phases": ["roofDetection", "azimuth", "trees", "obstructions", "walls", "3D", "shading"]
+            "completed_phases": [
+              "roofDetection",
+              "azimuth",
+              "trees",
+              "obstructions",
+              "walls",
+              "3D",
+              "shading"
+            ]
           }
         },
         {
@@ -113,7 +124,15 @@
       ]
     },
     {
-      "keywords": ["3d", "rendering", "render", "drawing3d", "crash", "three", "webgl"],
+      "keywords": [
+        "3d",
+        "rendering",
+        "render",
+        "drawing3d",
+        "crash",
+        "three",
+        "webgl"
+      ],
       "logs": [
         {
           "timestamp": "2025-05-21T09:00:12.000Z",
@@ -156,7 +175,16 @@
       ]
     },
     {
-      "keywords": ["financial", "calculation", "utility", "rate", "division", "genability", "nan", "infinity"],
+      "keywords": [
+        "financial",
+        "calculation",
+        "utility",
+        "rate",
+        "division",
+        "genability",
+        "nan",
+        "infinity"
+      ],
       "logs": [
         {
           "timestamp": "2025-05-21T11:22:30.000Z",
@@ -200,7 +228,15 @@
       ]
     },
     {
-      "keywords": ["screenshot", "puppeteer", "browser", "headless", "capture", "image", "proposal image"],
+      "keywords": [
+        "screenshot",
+        "puppeteer",
+        "browser",
+        "headless",
+        "capture",
+        "image",
+        "proposal image"
+      ],
       "logs": [
         {
           "timestamp": "2025-05-22T08:45:00.000Z",

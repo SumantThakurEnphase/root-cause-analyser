@@ -1,37 +1,37 @@
 ## 🔍 Root Cause Analysis
 
-**Error:** DWG download from SDT/EDT fails with `TypeError: Cannot read properties of undefined (reading 'version')` and `Site geometry version not provided`.
+**Error:** `TypeError: Cannot read properties of undefined (reading 'version')` during DWG download.
 
 **Root Cause:**
-In `libs/greenthink/index.js`, the `getSiteplan` function calls `getSiteGeometry(metadata, project)` synchronously and spreads its result into the `siteGeometry` object. However, `getSiteGeometry` is an asynchronous function that returns a `Promise`.
+In `libs/greenthink/index.js`, the `getSiteplan` function calls `getSiteGeometry(metadata, project)` without the `await` keyword.
 
-Spreading a pending `Promise` object (`{ ...getSiteGeometry(...) }`) results in an empty object because Promises do not have enumerable properties representing their future resolved values. Consequently, the `siteGeometry` payload sent to the GreenThink service only contains the `visibility` property and is missing all actual geometry data (including the `version` field), causing the deserialization and transformation to fail.
+Because `getSiteGeometry` is an asynchronous function that returns a Promise, spreading it (`{ ...getSiteGeometry(metadata, project) }`) results in an empty object (since Promises do not have enumerable own properties). Consequently, the `siteGeometry` payload sent to the greenthink service only contains the `visibility` property and is missing all actual geometry data. This causes the downstream `greenthink-service` to fail with a `TypeError` when it attempts to read the `version` property of the undefined/missing geometry data.
 
 **Affected File(s):**
 
-- `solargraf-api/libs/greenthink/index.js` — `getSiteplan`
+- `solargraf-api/libs/greenthink/index.js` — `getSiteplan` function
 
 **Evidence from Logs:**
 
-- `[2025-05-20T14:32:11.300Z] [WARN] [solargraf-gateway] getSiteGeometry returned a pending Promise instead of resolved data. Possible missing await.`
-- `[2025-05-20T14:32:11.400Z] [ERROR] [greenthink-service] GreenThinkDrawing.transformSiteGeometry failed: Cannot read properties of undefined (reading 'version')`
+- `[ERROR] [solargraf-gateway] Object deserialization failed in greenthink service. Error message: 'Site geometry version not provided'`
+- `[ERROR] [greenthink-service] GreenThinkDrawing.transformSiteGeometry failed: Cannot read properties of undefined (reading 'version')` at `libs/greenthink/GreenThinkDrawing.js:142`
 
 **Suggested Fix:**
-Add `await` before calling `getSiteGeometry` inside the `getSiteplan` function in `solargraf-api/libs/greenthink/index.js` to ensure the Promise resolves before spreading its properties.
+Await the asynchronous `getSiteGeometry` function before spreading its properties inside `getSiteplan`:
 
 ```javascript
 // solargraf-api/libs/greenthink/index.js
 
     async getSiteplan(
-          context,
+      context,
       metadata,
       companyResource,
       project,
       excludedContents = [],
       sitePlanFormat = gtdConstants.formats.DWG
     ) {
-          const visibility = {
-              roofFacets: !excludedContents.includes('roofFacets'),
+      const visibility = {
+          roofFacets: !excludedContents.includes('roofFacets'),
           obstructions: !excludedContents.includes('obstructions'),
           panels: !excludedContents.includes('panels'),
           setbacks: !excludedContents.includes('setbacks') || !excludedContents.includes('pathways'),
@@ -39,11 +39,11 @@ Add `await` before calling `getSiteGeometry` inside the `getSiteplan` function i
           trees: !excludedContents.includes('trees'),
       };
 
-      // FIX: Await the asynchronous getSiteGeometry call
+      // Fix: Await the async getSiteGeometry function before spreading
       const siteGeometry = { ...(await getSiteGeometry(metadata, project)), visibility };
 
       const sitePlanReq = {
-              siteGeometry,
+          siteGeometry,
           version: gtdConstants.payloadVersion.v3,
           sitePlanFormat,
       };
@@ -54,4 +54,5 @@ Add `await` before calling `getSiteGeometry` inside the `getSiteplan` function i
 
 **Confidence:** High
 
-**Additional Notes:** Since `getSiteplan` is already declared as an `async` function, adding `await` is safe and will not require changing the function signature.
+**Additional Notes:**
+This is a classic Node.js async bug pattern where spreading a Promise object silently fails to copy any properties, resulting in downstream services receiving incomplete payloads. Always ensure functions returning Promises are fully resolved with `await` before using object spread syntax.

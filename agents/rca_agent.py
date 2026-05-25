@@ -41,7 +41,7 @@ class RCAAgent:
 
         # Step 2: Build a search query from the user query + key log info
         search_query = self._build_search_query(query, logs)
-        snippets = self.code_search.search(search_query)
+        snippets = self.code_search.search_with_call_chain(search_query)
         formatted_snippets = self.code_search.format_snippets_for_prompt(snippets)
 
         # Step 3: Build the full prompt
