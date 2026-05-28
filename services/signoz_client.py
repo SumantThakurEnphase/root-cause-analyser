@@ -156,9 +156,9 @@ class SigNozClient:
 
         for corr_id in correlation_ids:
             expression = (
-                f"correlationId='{corr_id}' AND "
-                f"(severity_text = 'Error' OR severity_text='Warn' "
-                f"or severity_text='warn')"
+                f"correlationId='{corr_id}'"
+                # f"(severity_text = 'Error' OR severity_text='Warn' "
+                # f"or severity_text='warn')"
             )
             payload = self._build_signoz_payload(expression)
             error_logs = self._call_signoz(payload)
@@ -170,6 +170,7 @@ class SigNozClient:
                 if span_id:
                     seen_span_ids.add(span_id)
                 all_error_logs.append(log)
+            print(f"[SigNoz] Error logs {error_logs}")
 
         print(
             f"[SigNoz] Followed {len(correlation_ids)} correlationId(s), "
@@ -204,6 +205,44 @@ class SigNozClient:
             print(f"[SigNoz] API call failed: {e}")
             return []
 
+    @staticmethod
+    def _extract_log_fields(log: dict) -> dict:
+        """Normalise a raw SigNoz log row into a flat dict with useful fields.
+
+        SigNoz log structure:
+          - top-level 'body': short summary (e.g. 'Connection established')
+          - attributes_string.body: actual request/response payload (JSON string
+            that may contain errorMessages, validation errors, etc.)
+          - attributes_string.res: HTTP response details (JSON string)
+          - attributes_string.err: error string if present
+        """
+        attrs = log.get("attributes_string", {})
+        res = log.get("resources_string", {})
+
+        # The real payload is in attributes_string.body, not top-level body
+        attr_body = attrs.get("body", "")
+        top_body = log.get("body", "")
+
+        return {
+            "timestamp": log.get("timestamp", "unknown"),
+            "severity": log.get("severity_text", "INFO"),
+            "service": (
+                attrs.get("serviceName")
+                or attrs.get("name")
+                or res.get("service.name", "unknown")
+            ),
+            "body": top_body,
+            "attr_body": attr_body,
+            "response": attrs.get("res", ""),
+            "error": attrs.get("err", ""),
+            "endpoint": attrs.get("endpoint", ""),
+            "method": attrs.get("method", ""),
+            "correlationId": attrs.get("correlationId", ""),
+            "requestId": attrs.get("requestId", ""),
+            "trace_id": log.get("trace_id", ""),
+            "span_id": log.get("span_id", ""),
+        }
+
     def format_logs_for_prompt(self, logs: list[dict]) -> str:
         """Format log entries into a readable string for the LLM prompt."""
         if not logs:
@@ -211,16 +250,36 @@ class SigNozClient:
 
         lines = []
         for log in logs:
-            ts = log.get("timestamp", "unknown")
-            severity = log.get("severity", "INFO")
-            service = log.get("service", "unknown")
-            message = log.get("message", "")
-            attrs = log.get("attributes", {})
+            f = self._extract_log_fields(log)
+            header = f"[{f['timestamp']}] [{f['severity']}] [{f['service']}]"
 
-            line = f"[{ts}] [{severity}] [{service}] {message}"
-            if attrs:
-                attr_str = ", ".join(f"{k}={v}" for k, v in attrs.items())
-                line += f"\n  Attributes: {attr_str}"
-            lines.append(line)
+            parts = [header]
+
+            if f["endpoint"]:
+                parts.append(f"  Endpoint: {f['method']} {f['endpoint']}")
+            if f["correlationId"]:
+                parts.append(f"  CorrelationId: {f['correlationId']}")
+            if f["body"]:
+                parts.append(f"  Message: {f['body']}")
+
+            # attributes_string.body has the real payload (request/response JSON)
+            attr_body = f["attr_body"]
+            if attr_body:
+                if len(attr_body) > 2000:
+                    attr_body = attr_body[:2000] + "… (truncated)"
+                parts.append(f"  Payload: {attr_body}")
+
+            # attributes_string.res has the HTTP response
+            response = f["response"]
+            if response:
+                if len(response) > 1500:
+                    response = response[:1500] + "… (truncated)"
+                parts.append(f"  Response: {response}")
+
+            # attributes_string.err has explicit error text
+            if f["error"]:
+                parts.append(f"  Error: {f['error']}")
+
+            lines.append("\n".join(parts))
 
         return "\n\n".join(lines)

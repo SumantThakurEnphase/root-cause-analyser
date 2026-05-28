@@ -33,7 +33,6 @@ class RCAAgent:
         self.code_search = CodeSearchService()
         self.gemini = GeminiClient()
         self.api_discovery = APIDiscoveryService(
-            code_search=self.code_search,
             gemini=self.gemini,
         )
 
@@ -205,24 +204,24 @@ class RCAAgent:
         """
         Build an enriched search query by extracting key terms from logs.
         This improves ChromaDB retrieval by including function names,
-        file paths, and error types found in the logs.
+        file paths, error types, and endpoint info found in the logs.
         """
         parts = [query]
 
         for log in logs:
-            attrs = log.get("attributes", {})
-            # Extract file paths and function names from log attributes
-            if "file" in attrs:
-                parts.append(attrs["file"])
-            if "function" in attrs:
-                parts.append(attrs["function"])
-            if "error_type" in attrs:
-                parts.append(attrs["error_type"])
+            attrs = log.get("attributes_string", {})
+            # Extract endpoint and service info
+            endpoint = attrs.get("endpoint", "")
+            if endpoint:
+                parts.append(endpoint)
+            service = attrs.get("serviceName", "")
+            if service:
+                parts.append(service)
 
-            # Also look for function/file references in the message
-            message = log.get("message", "")
-            if message:
-                parts.append(message)
+            # Extract error-relevant terms from body
+            body = log.get("body", "")
+            if body and len(body) < 300:
+                parts.append(body)
 
         # Deduplicate while preserving order, then join
         seen = set()

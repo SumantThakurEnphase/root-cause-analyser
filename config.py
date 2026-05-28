@@ -7,7 +7,8 @@ load_dotenv()
 class Config:
     # Gemini
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
-    GEMINI_MODEL: str = "gemini-2.5-flash"
+    # GEMINI_MODEL: str = "gemini-2.5-flash-lite"
+    GEMINI_MODEL: str = "gemini-3.1-flash-lite-preview"
     # Print key
     print("GEMINI_API_KEY:", GEMINI_API_KEY)
 

@@ -1,0 +1,3728 @@
+[
+  {
+    "path": "/healthcheck",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/accesskeys",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/accesskeys/:accesskeyId",
+    "methods": [
+      "DELETE",
+      "GET"
+    ]
+  },
+  {
+    "path": "/accountManagers",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/admin/impersonnate",
+    "methods": [
+      "DELETE"
+    ]
+  },
+  {
+    "path": "/admin/impersonnate/:userId",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/ahj/fireSetbacks",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/ahj/gte/:id",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/ahj/details/:id",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/ahj/recommendations",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/ahj/codes",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/analytics/token",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/chatbot/suggestedPrompts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/chatbot/suggestedPrompts/:promptId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/assistant/conversations",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/assistant/transactions/:transactionId/feedback/",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/assistant/chatFeedback/:userId",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/assistant/query",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/assistant/llm/chat",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/assistant/llm/entryCheckpoint",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/assistant/agenticLogging",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/livechat/token",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/livechat/ticket",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/enlmPermits/:enlmPermitId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/cards/:cardId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/colorschemes",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/comments/:commentId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/accountManager",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/accountManager/:userId",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/cards",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/cards/intents",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/uploads",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/uploads/:fileId",
+    "methods": [
+      "DELETE"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/externalCards",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/colorschemes",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/colorschemes/:colorschemeId",
+    "methods": [
+      "DELETE"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/companies",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/companies/:childCompanyId/subscriptions",
+    "methods": [
+      "DELETE",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/companies/documentTemplates/clone",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/companies/drawingSettings/clone",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/companies/financialOptions/clone",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/companies/fireSetbacks/clone",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/companies/losses/clone",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/companies/leadStatuses/clone",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/companies/materials/clone",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/companies/pricing/clone",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/companies/proposalSettings/clone",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/companies/proposalTemplates/clone",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/companies/utilitySettings/clone",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/contracts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/contracts/:financialFileId",
+    "methods": [
+      "DELETE"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/contracts/:type",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/creditBalance",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/creditBalance/credits",
+    "methods": [
+      "DELETE",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/creditBalance/gifts",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/documents",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/documents/bulk",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/documents/:documentId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/documentPlaceholders",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/documentPlaceholders/:placeholderId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/utilityEscalator",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/utilityEscalator/:utilityEscalatorId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/events",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/feedbacks",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/feeds",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financialOptions",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financialOptions/bulk",
+    "methods": [
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financialOptions/bulkDelete",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financialOptions/:financialOptionId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financialOptions/:financialOptionId/retroApply",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/adminFinancialOptions/bulk",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/:financingType/authentication/request",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/:financingType/authentication/apply",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/authentications",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/concert/authentication",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/concert/products",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/dividend/authentication",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/dividend/products",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/enfin/authentication",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/lightreach/authentication",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/serviceFinance/authentication",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/serviceFinance/loans",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/serviceFinance/products",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/goodleap/authentication",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/goodleap/offers",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/sungage/products",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/goodleap/payments",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/sungage/authentication",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/mosaic/authentication",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/mosaic/products/",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/financing/mosaic/products/:productId/estimate",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/fireSetbacks",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/fireSetbacks/:fireSetbackId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/flatRoofPitches",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/flatRoofPitches/:flatRoofPitchId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/pegasus/authentication",
+    "methods": [
+      "DELETE",
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/incentives",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/ironRidge/authentication",
+    "methods": [
+      "DELETE",
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/keepouts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/keepouts/:keepoutId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/leadBalance",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/leadBalance/gifts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/leadBalance/refunds",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/leadOffers",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/leads",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/leadSettings",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/leadStatuses",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/leadStatuses/:statusId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/logs",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/losses",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/losses/:lossId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/managedServiceAdmins",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/managedServiceAdmins/:userId",
+    "methods": [
+      "DELETE"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/manufacturers",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/materials",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/materials/extraCosts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/materials/extraCosts/:extraCostId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/materials/:materialType",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/materials/:materialType/manufacturers",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/materials/:materialType/:materialId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/materials/:materialType/:materialId/specsheet",
+    "methods": [
+      "DELETE",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/materials/shingles/:shingleId/colors",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/metrics",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/parent",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/permits/services",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/permitBalance/gifts",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/previousProjects",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/previousProjects/:previousProjectId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/previousProjects/:previousProjectId/items",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/previousProjects/:previousProjectId/items/:itemId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/pricing",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/pricingTable",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/pricingTable/:pricingTableId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/projectConnection/:projectConnectionId/tariffSettings",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/projects",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/projects/near",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/projects/reminders",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/promotions",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/promotions/:promoCode",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/templateSettings",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/quoteSettings",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/proposalTemplates",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/proposalTemplates/default",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/proposalTemplates/:proposalTemplateId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/proposalTemplates/:proposalTemplateId/clone",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/proposalTemplates/:proposalTemplateId/retroApply",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/retroSettings",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/roles",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/roles/:roleId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/roofReports/services",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/settings",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/salesRep",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/salesRep/:userId",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/sandboxAccount/request",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/settings/defaultPanel/:defaultPanelId",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/signature",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/signatures",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/signatures/:signatureId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/siteassessments",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/siteassessments/attributes/:attributeId",
+    "methods": [
+      "DELETE"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/siteassessments/steps/:stepId",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/storageSettings",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/subscriptions",
+    "methods": [
+      "DELETE",
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/subscriptions/refunds",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/subscriptions/:subscriptionId",
+    "methods": [
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/docusign/authentication",
+    "methods": [
+      "DELETE",
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/enlighten/authentication",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/enlighten/systems",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/enlighten/systems/:systemId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/enlighten/systems/:systemId/consumption",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/docusign/authentication/hmac",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/templates",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/templates/:templateId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/templates/:templateId/sections/:sectionId/items",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/templates/:templateId/sections/:sectionId/items/:itemId",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/terms",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/terms/:termId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/termSignatures",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/transactions",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/transactions/:transactionId/refunds",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/userBalance",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/userBalance/additions",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/userBalance/gifts",
+    "methods": [
+      "DELETE",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/users",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/userEulas",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/utilities",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/consumptionProfiles",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/consumptionProfiles/:consumptionProfileId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/utilitySettings",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/taxCalculator/:amount",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/webhooks",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/webhooks/:webhookId",
+    "methods": [
+      "DELETE",
+      "GET"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/regions",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/companies/:companyId/regions/:regionId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/countries/:countryCode/states",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/countries/:countryCode/states/:regionCode/counties",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/documents/uploads",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/proposalTemplate/customSectionUploads",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/emails/:template",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/enlm/financials/:publicId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/enlm/permit/:permitId/details",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/enlm/permit/:permitId/feedback",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/enlm/verification",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/enlm/sessions",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/evCars",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/financialOptions",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/financialOptions/bulk",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/financialOptions/:financialOptionId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/financialSurveys/:version/questions",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/flows",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/flows/:flowType",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/flows/:flowType/:stepName",
+    "methods": [
+      "DELETE"
+    ]
+  },
+  {
+    "path": "/flows/:flowType/complete/:stepName",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/incentives",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/incentives/:incentiveId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/invite",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/leadOffers/highestFeaturedBid",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/leadOffers/:leadOfferId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/leadOffers/:leadOfferId/assignees",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/leadOffers/:leadOfferId/assignees/:userId",
+    "methods": [
+      "DELETE",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/leadOffers/:leadOfferId/highestFeaturedBid",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/leads",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/leads/import",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/leads/:leadId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/leads/:leadId/assignees",
+    "methods": [
+      "DELETE",
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/leads/:leadId/assignees/:userId",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/leads/:leadId/refunds",
+    "methods": [
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/leads/:leadId/refunds/accepted",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/materials",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/materials/:materialId/comments",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/materials/manufacturers",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/materials/manufacturers/:manufacturerId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/materials/appliances",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/materials/categories",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/materials/:materialType",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/materials/:materialType/manufacturers",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/materials/batteryBackups/:materialId",
+    "methods": [
+      "DELETE"
+    ]
+  },
+  {
+    "path": "/materials/batteryGroups/:materialId",
+    "methods": [
+      "DELETE"
+    ]
+  },
+  {
+    "path": "/materials/storageConfigurations/:materialId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/materials/:materialType/:materialId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/materials/:materialType/:materialId/specsheet",
+    "methods": [
+      "DELETE",
+      "POST"
+    ]
+  },
+  {
+    "path": "/materials/shingles/:shingleId/colors",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/materials/:materialType/request",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/materialAssemblies",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/materialAssemblies/:materialAssemblyId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/nominalVoltages",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/me",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/me/eula",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/partners/cities/leadOffers{/:quality}",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/partners/docusign/hooks",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/partners/leadOffers",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/partners/leadOffers/:latitude/:longitude",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/partners/leads",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/partners/leads/:leadId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/partners/dividend/hooks",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/partners/goodleap/hooks",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/partners/mailgun",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/partners/mosaic/hooks",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/partners/mosaic/v2/hooks",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/partners/:provider/permits{/:applicationId}",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/partners/noida/permits/:permitId/clone",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/partners/pendo/nps",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/partners/stripe/:countryCode",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/partners/sunpro/projects/:projectId/proposals/:proposalId/drawing/submit",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/permits/delays",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/positions",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/positions/:lat/:lng/:zoom/imagesrc",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/positions/:lat/:lng/image",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projectConsumptions",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/agentic/defaults",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/public/:publicId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/asceHazards",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/assignees",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/assignees/:userId",
+    "methods": [
+      "DELETE",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/autopitch/availability",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/autopitch/availability",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/autopitch/calculation",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/autopitch/calculation/azimuth",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/autopitch/calculation/lidarPoints",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/colorschemes",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/comments",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/contracts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/contracts/:financialFileId",
+    "methods": [
+      "DELETE"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/contracts/:type",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/documents",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/documents/bulk",
+    "methods": [
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/documents/:documentId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/documents/send",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/documents/docusign",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/documents/docusign/:documentId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/documents/docusign/:documentId/certificate",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/drawing3d",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/screenshots",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/drawings",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/dxfImport",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financialSurvey",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financialOptions",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financialOptions/bulk",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financialOptions/bulkDelete",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financialOptions/:financialOptionId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financialOptions/:financialOptionId/availability",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/bankOfWest",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/bankOfWest/email",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/dividend",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/dividend/legacyApplication",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/dividend/:loanId/legacyApplication",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/dividend/disclosures",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/dividend/salesReps",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/dividend/:loanId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/dividend/:loanId/application",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/dividend/:loanId/submitApplication",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/dividend/loanCalculator",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/dividend/:loanId{/legacyStatus}",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/documentPlaceholders",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/documentPlaceholders/:placeholderId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/enfin/products",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/enfin",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/enfin/salesReps",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/enfin/:applicationId",
+    "methods": [
+      "DELETE",
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/lightreach",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/lightreach/available-adders",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/lightreach/contracts",
+    "methods": [
+      "DELETE",
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/lightreach/design-details",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/lightreach/disclosures",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/lightreach/products",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/lightreach/validate-change",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/lightreach/change-order",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/lightreach/homeowner",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/concert",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/concert/apply",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/concert/loan/apply",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/concert/cancel",
+    "methods": [
+      "DELETE"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/concert/products",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/concert/users",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/concert/contracts",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/concert/document-status",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/concert/resend-proposal-pdf",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/concert/utilities",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/concert/homeowner",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/goodleap/disclosures",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/goodleap/proposal-disclosures",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/goodleap",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/:financialType/goodleap",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/:financialType/goodleap/offers",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/:financialType/goodleap/:leaseId/utility-info",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/:financialType/goodleap/:leaseId/system-design",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/:financialType/goodleap/:leaseId/change-orders",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/:financialType/goodleap/:leaseId/send-docs",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/goodleap/:loanId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/goodleap/:loanId/milestones",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/goodleap/homeowner",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/goodleap/homeowner/lease",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/:financingType/homeowner/:applicationId",
+    "methods": [
+      "DELETE"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/:financingType/homeowner/:applicationId/reminder",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/:financingType/homeowner/:applicationId/reminder/lease",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/mosaic/disclosures",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/mosaic/salesReps",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/mosaic/v1/:loanId",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/mosaic/v1",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/mosaic/v2/:loanId/estimates/:amount",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/mosaic/:loanId/offers",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/mosaic/v2",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/mosaic/:loanId",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/mosaic",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/serviceFinance/loanCalculator",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/serviceFinance",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/serviceFinance/:loanId/status",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/serviceFinance/:loanId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financing/serviceFinance/homeowner",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/fireSetbacks",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/fireSetbacks/:fireSetbackId",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/firesetbacks/boundaries",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/gtd/jobStatus",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/housingBlockOutline",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/incentives",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/structuralBomProjects",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/keepouts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/linetypes/calculation",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/jobs",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/jobs/:jobId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/materials",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/materials/appliances",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/materials/appliances/resetUtilities",
+    "methods": [
+      "DELETE",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/materials/appliances/:applianceId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/materials/appliances",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/materials/extraCosts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/materials/extraCosts/availability",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/materials/extraCosts/:extraCostId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/materials/:materialType",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/materials/:materialType/:materialId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/meetings",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/enlmPermit",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/obstructionDetection",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/panelsPlacement",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/panels",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/payments",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/payments/:paymentId",
+    "methods": [
+      "DELETE"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/payments/:paymentId/refund",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/permit",
+    "methods": [
+      "DELETE",
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/permit/application",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/permit/charge",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/permit/uploads",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/permit/planDownloaded",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/permit/snapshot",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/preparedQuote",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/previousProjects",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/previousProjects/:previousProjectId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/previousProjects/:previousProjectId/items",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/previousProjects/:previousProjectId/items/:itemId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/projectConnection/:projectConnectionId/tariffSettings",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/manualProduction/:productionId",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/manualProduction",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/financialMetadata",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/projectSteps",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/propertyAttributes",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/autostring",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/financialMetadata",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/ironRidge",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/pegasus",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/rooflineDetection/feedback",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/shadingReports",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/permitPlan",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/dimensions",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/storageSettings",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/batterySavingsAnalysis",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/billOffset",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/clone",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/drawings",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/drawings/dxf",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/drawings/dwg",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/drawings/metadata",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/losses",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/price",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/pricing",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/productions",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/roofPlanes",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/systemLosses",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/sat/recommend",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/sat/batteryRecommendation",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/smartDesigner",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/bom",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/utilitySettings/usageData",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/utilitySettings",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/weatherSettings",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/proposals/:proposalId/proposalTemplates",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/quoteSettings",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/stamping",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/stamping/charge",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/templateSettings",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/resetMap",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/rooflineDetection",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/stackingSpacingCalculation",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/roofPlanes",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/roofReports",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/roofReports/drawings",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/roofReports/order",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/selfServePlansetFiles",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/settings",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/storageSettings",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/shading/calculation/panels",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/shading/calculation/roof",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/shading/calculation",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/shadingReport/calculation",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/shadingReport/heatmap",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/shadingReport/heatmap/:solarFluxId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/installerSignatures/:signatureId",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/signatures",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/signatures/:signatureId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/singleLineDiagram",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/siteassessments",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/templates",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/templates/:templateId/sections/:sectionId/items",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/templates/:templateId/sections/:sectionId/items/:itemId",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/terms",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/treeDetection",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/treesElevation",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/uploads",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/uploads/:projectFileId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/utilitySettings",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/utilitySettings/usageData",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/projects/:projectId/weatherStations",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/promotions",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/promotions/:promoId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/public/company/:publicId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/incentives",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/financialAnalysis",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/loanCalculator",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/financing/goodleap/homeowner",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/financing/goodleap/homeowner/lease",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/proposals/:proposalId/financing/goodleap/leaseCalculator",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/financing/serviceFinance/homeowner",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/financing/lightreach/homeowner",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/financing/lightreach/disclosures",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/financing/concert/homeowner",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/financing/:financingType/homeowner",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/financing/:financingType/homeowner/lease",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/incentives",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/meeting",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/productions",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/readReceipt",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/signedOffers/:financialOptionId",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/siteassessment",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/siteassessment/steps/:stepId",
+    "methods": [
+      "POST",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/siteassessment/zip",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/siteassessment/steps/:stepId/attributes/:attributeId",
+    "methods": [
+      "DELETE"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/usage",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/roofPlanes",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/proposals/:proposalId/losses",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/proposals/:proposalId/shadingReports",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/proposals/:proposalId/financing/enfin/leaseCalculator",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/proposals/:proposalId/financing/lightreach/leaseCalculator",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/proposals/:proposalId/financing/concert/leaseCalculator",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/project/:publicId/proposals/:proposalId/financing/sungage/payments",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/roofReports/:roofReportId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/public/roofReports/:roofReportId/recipients/:recipientId/readReceipt",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/public/roofReports/:roofReportId/recipients/:recipientId/uploads",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/public/user/:userId/:hash",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/reset/begin",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/reset/finish",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/roles",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/roofReports",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/roofReports/:roofReportId/refunds",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/roofReports/:roofReportId/shadingReports",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/roofReports/:roofReportId/shadingReports/:shadingReportId",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/roofReports/:roofReportId/submissions",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/roofReports/:roofReportId/comments",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/roofReports/:roofReportId/rejections",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/roofReports/:roofReportId/comments/:commentId",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/roofReports/:roofReportId/recipients",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/roofReports/services",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/roofReports/:roofReportId",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/sat/hasTOU",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/sat/recommend",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/sat/productionProfile",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/sessions",
+    "methods": [
+      "DELETE",
+      "POST"
+    ]
+  },
+  {
+    "path": "/sessions/sso/oidc",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/sms",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/stats/companies/:companyId/designMetrics",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/stats/financingApplications",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/stats/financingApplications/:loanId",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/stats/logs",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/stats/logs/:logId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/subscriptions",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/subscriptions/addons",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/subscriptions/:subscriptionId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/tariffs",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/tariffs/:tariffId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/templates",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/users",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/users/admins",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/users/:userId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/users/:userId/financingApplication",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/users/:userId/avatar",
+    "methods": [
+      "DELETE",
+      "POST"
+    ]
+  },
+  {
+    "path": "/users/:userId/google/authentication/consent",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/users/:userId/google/authentication",
+    "methods": [
+      "DELETE",
+      "POST"
+    ]
+  },
+  {
+    "path": "/users/:userId/accessKeys",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/users/:userId/events",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/users/:userId/events/:eventId",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/users/:userId/events/event/:eventId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/users/:userId/events/projectFollowup/:projectId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/users/:userId/events/projectMeeting/:projectMeetingId",
+    "methods": [
+      "DELETE",
+      "PUT"
+    ]
+  },
+  {
+    "path": "/users/:userId/events/projectStep/:projectStepId",
+    "methods": [
+      "PUT"
+    ]
+  },
+  {
+    "path": "/users/:userId/feeds",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/users/:userId/invites",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "path": "/users/:userId/metrics",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "path": "/users/:userId/calendars",
+    "methods": [
+      "DELETE",
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/users/:userId/calendars/:calendarId",
+    "methods": [
+      "DELETE"
+    ]
+  },
+  {
+    "path": "/users/:userId/licenses",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/utilities",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "path": "/utilities/:utilityId",
+    "methods": [
+      "DELETE",
+      "GET",
+      "PUT"
+    ]
+  }
+]

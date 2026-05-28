@@ -5,6 +5,7 @@ Serves the Bot Framework messaging endpoint and a health check.
 Run with: uvicorn main:app --host 0.0.0.0 --port 3978 --reload
 """
 
+import os
 import sys
 import traceback
 import warnings
@@ -110,6 +111,13 @@ async def analyze(request: RCARequest):
     """
     try:
         result = await rca_agent.analyze(request.query, url=request.url or "")
+
+        # Write the analysis output to analysis.md
+        output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "analysis.md")
+        with open(output_path, "w") as f:
+            f.write(result)
+        print(f"[RCA] Analysis written to {output_path}")
+
         return {"query": request.query, "url": request.url, "analysis": result}
     except Exception as e:
         traceback.print_exc()
