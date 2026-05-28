@@ -12,6 +12,8 @@ import warnings
 warnings.filterwarnings("ignore", category=FutureWarning, module=r"google\.")
 warnings.filterwarnings("ignore", module=r"urllib3\.", message=r".*NotOpenSSLWarning.*|.*OpenSSL.*")
 
+from typing import Optional
+
 from fastapi import FastAPI, Request, Response
 from pydantic import BaseModel
 from botbuilder.core import (
@@ -28,6 +30,7 @@ from agents.rca_agent import RCAAgent
 
 class RCARequest(BaseModel):
     query: str
+    url: Optional[str] = ""
 
 
 rca_agent = RCAAgent()
@@ -95,17 +98,22 @@ async def analyze(request: RCARequest):
     """
     Direct REST API for testing RCA without Teams.
 
-    Usage:
+    Usage (with URL — project-aware):
+        curl -X POST http://localhost:3978/api/analyze \
+          -H "Content-Type: application/json" \
+          -d '{"url": "https://app.solargraf.com/projects/342321", "query": "roofline detection not working"}'
+
+    Usage (without URL — query-only, backward compatible):
         curl -X POST http://localhost:3978/api/analyze \
           -H "Content-Type: application/json" \
           -d '{"query": "Download DWG from SDT/EDT is failing"}'
     """
     try:
-        result = await rca_agent.analyze(request.query)
-        return {"query": request.query, "analysis": result}
+        result = await rca_agent.analyze(request.query, url=request.url or "")
+        return {"query": request.query, "url": request.url, "analysis": result}
     except Exception as e:
         traceback.print_exc()
-        return {"query": request.query, "error": str(e)}
+        return {"query": request.query, "url": request.url, "error": str(e)}
 
 
 if __name__ == "__main__":

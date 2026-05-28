@@ -21,7 +21,8 @@
           "attributes": {
             "endpoint": "GET /projects/58291/proposals/12345/siteplan",
             "user_id": "user_9182",
-            "company_id": "comp_421"
+            "company_id": "comp_421",
+            "correlationId": "corr-dwg-001"
           }
         },
         {
@@ -34,7 +35,8 @@
           "attributes": {
             "function": "getSiteplan",
             "file": "libs/greenthink/index.js",
-            "error_type": "DeserializationError"
+            "error_type": "DeserializationError",
+            "correlationId": "corr-dwg-001"
           }
         },
 
@@ -46,7 +48,8 @@
           "span_id": "span_004",
           "message": "GreenThinkDrawing.transformSiteGeometry failed: Cannot read properties of undefined (reading 'version')",
           "attributes": {
-            "stack_trace": "TypeError: Cannot read properties of undefined (reading 'version')\n    at GreenThinkDrawing.transformSiteGeometry (libs/greenthink/GreenThinkDrawing.js:142)\n    at getSiteplan (libs/greenthink/index.js:58)"
+            "stack_trace": "TypeError: Cannot read properties of undefined (reading 'version')\n    at GreenThinkDrawing.transformSiteGeometry (libs/greenthink/GreenThinkDrawing.js:142)\n    at getSiteplan (libs/greenthink/index.js:58)",
+            "correlationId": "corr-dwg-001"
           }
         }
       ]
@@ -70,7 +73,8 @@
           "message": "Auto-design pipeline started for proposal 67890",
           "attributes": {
             "endpoint": "POST /projects/45678/proposals/67890/autoDesign",
-            "design_mode": "full"
+            "design_mode": "full",
+            "correlationId": "corr-autodesign-001"
           }
         },
         {
@@ -143,7 +147,8 @@
           "message": "3D rendering failed for proposal 34567",
           "attributes": {
             "endpoint": "POST /projects/23456/proposals/34567/3d-render",
-            "user_id": "user_5512"
+            "user_id": "user_5512",
+            "correlationId": "corr-3d-001"
           }
         },
         {
@@ -195,7 +200,8 @@
           "message": "Financial calculation returned NaN for proposal 89012",
           "attributes": {
             "endpoint": "POST /projects/78901/proposals/89012/financial-analysis",
-            "calculation_type": "savings_estimate"
+            "calculation_type": "savings_estimate",
+            "correlationId": "corr-fin-001"
           }
         },
         {
@@ -247,7 +253,8 @@
           "message": "Screenshot generation failed for proposal 11223",
           "attributes": {
             "endpoint": "POST /projects/10111/proposals/11223/screenshot",
-            "user_id": "user_7723"
+            "user_id": "user_7723",
+            "correlationId": "corr-screenshot-001"
           }
         },
         {
@@ -274,6 +281,139 @@
           "attributes": {
             "expected_path": "node_modules/puppeteer/.local-chromium",
             "file": "libs/designToolScreenshot/src/screenshotService.js"
+          }
+        }
+      ]
+    },
+    {
+      "keywords": [
+        "feature",
+        "not visible",
+        "hidden",
+        "config",
+        "flag",
+        "toggle",
+        "disabled",
+        "permission"
+      ],
+      "logs": [
+        {
+          "timestamp": "2025-05-23T14:10:00.000Z",
+          "severity": "INFO",
+          "service": "solargraf-gateway",
+          "trace_id": "cfg111aaa222",
+          "span_id": "span_050",
+          "message": "GET /projects/55555/proposals — user requesting proposal list",
+          "attributes": {
+            "endpoint": "GET /projects/55555/proposals",
+            "user_id": "user_3310",
+            "company_id": "comp_887",
+            "correlationId": "corr-config-001"
+          }
+        },
+        {
+          "timestamp": "2025-05-23T14:10:00.200Z",
+          "severity": "WARN",
+          "service": "solargraf-gateway",
+          "trace_id": "cfg111aaa222",
+          "span_id": "span_051",
+          "message": "Feature 'permit_package_v2' is disabled for company comp_887. Feature flag check returned false.",
+          "attributes": {
+            "feature_flag": "permit_package_v2",
+            "company_id": "comp_887",
+            "flag_source": "company_settings",
+            "expected": true,
+            "actual": false,
+            "correlationId": "corr-config-001"
+          }
+        },
+        {
+          "timestamp": "2025-05-23T14:10:00.300Z",
+          "severity": "INFO",
+          "service": "solargraf-gateway",
+          "trace_id": "cfg111aaa222",
+          "span_id": "span_052",
+          "message": "Permit package section hidden from UI response — feature flag 'permit_package_v2' is off for this company",
+          "attributes": {
+            "file": "services/proposal-service/src/controllers/proposalController.js",
+            "function": "getProposalDetails",
+            "feature_flag": "permit_package_v2",
+            "correlationId": "corr-config-001"
+          }
+        }
+      ]
+    },
+    {
+      "keywords": [
+        "slow",
+        "intermittent",
+        "timeout",
+        "oom",
+        "restart",
+        "pod",
+        "memory",
+        "deploy",
+        "infrastructure"
+      ],
+      "logs": [
+        {
+          "timestamp": "2025-05-24T06:00:00.000Z",
+          "severity": "WARN",
+          "service": "solargraf-gateway",
+          "trace_id": "infra333bbb444",
+          "span_id": "span_060",
+          "message": "Request to design-tool-service timed out after 30000ms — pod may be restarting",
+          "attributes": {
+            "target_service": "design-tool-service",
+            "timeout_ms": 30000,
+            "correlationId": "corr-infra-001"
+          }
+        },
+        {
+          "timestamp": "2025-05-24T06:00:05.000Z",
+          "severity": "ERROR",
+          "service": "kubernetes",
+          "trace_id": "infra333bbb444",
+          "span_id": "span_061",
+          "message": "Pod design-tool-service-7f8d9c6b5-x2k4m OOMKilled — container exceeded memory limit (512Mi)",
+          "attributes": {
+            "pod": "design-tool-service-7f8d9c6b5-x2k4m",
+            "namespace": "solargraf-prod",
+            "reason": "OOMKilled",
+            "memory_limit": "512Mi",
+            "memory_usage": "510Mi",
+            "restart_count": 3,
+            "correlationId": "corr-infra-001"
+          }
+        },
+        {
+          "timestamp": "2025-05-24T06:00:10.000Z",
+          "severity": "WARN",
+          "service": "kubernetes",
+          "trace_id": "infra333bbb444",
+          "span_id": "span_062",
+          "message": "Pod design-tool-service-7f8d9c6b5-x2k4m restarted 3 times in the last hour. CrashLoopBackOff detected.",
+          "attributes": {
+            "pod": "design-tool-service-7f8d9c6b5-x2k4m",
+            "namespace": "solargraf-prod",
+            "status": "CrashLoopBackOff",
+            "last_deploy": "2025-05-24T05:30:00.000Z",
+            "correlationId": "corr-infra-001"
+          }
+        },
+        {
+          "timestamp": "2025-05-24T05:30:00.000Z",
+          "severity": "INFO",
+          "service": "ci-cd",
+          "trace_id": "infra333bbb444",
+          "span_id": "span_063",
+          "message": "Deployment design-tool-service v2.14.0 rolled out to solargraf-prod at 05:30 UTC",
+          "attributes": {
+            "deployment": "design-tool-service",
+            "version": "v2.14.0",
+            "previous_version": "v2.13.2",
+            "namespace": "solargraf-prod",
+            "correlationId": "corr-infra-001"
           }
         }
       ]

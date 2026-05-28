@@ -1,41 +1,19 @@
 """
 SigNoz client — fetches logs from the SigNoz Query API (v5/query_range).
-
-Falls back to mock data if the API is unreachable or not configured.
 """
 
-import json
-import os
 import time
 import requests
 from typing import Any
-
-_MOCK_DATA_PATH = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "mock_data",
-    "signoz_logs.json",
-)
 
 # Default look-back window: 10 days in milliseconds
 _DEFAULT_LOOKBACK_MS = 10 * 24 * 60 * 60 * 1000
 
 
 class SigNozClient:
-    def __init__(self, api_url: str = "", api_key: str = "", use_mock: bool = False):
+    def __init__(self, api_url: str = "", api_key: str = ""):
         self.api_url = api_url
         self.api_key = api_key
-        self.use_mock = use_mock
-        self._scenarios: list[dict] = []
-        self._load_mock_data()
-
-    def _load_mock_data(self) -> None:
-        try:
-            with open(_MOCK_DATA_PATH, "r") as f:
-                data = json.load(f)
-            self._scenarios = data.get("scenarios", [])
-        except (FileNotFoundError, json.JSONDecodeError) as e:
-            print(f"Warning: Could not load mock SigNoz data: {e}")
-            self._scenarios = []
 
     def _build_signoz_payload(self, expression: str, lookback_ms: int = _DEFAULT_LOOKBACK_MS, limit: int = 20) -> dict:
         """Build a SigNoz v5/query_range payload matching the JS issueAnalyzer format."""
@@ -99,40 +77,132 @@ class SigNozClient:
         print(f"[SigNoz] Got {len(rows)} rows")
         return [row.get("data", row) for row in rows]
 
+    def fetch_logs_by_api(
+        self,
+        api_path: str,
+        project_id: str,
+        proposal_id: str = "",
+    ) -> list[dict[str, Any]]:
+        """
+        Fetch logs for a specific API endpoint and project, then follow
+        correlationId chains to get full error/warn context.
+
+        This mirrors the issueAnalyzer.js pattern:
+        1. Query SigNoz for logs matching the API path + projectId
+        2. Extract unique correlationIds from the results
+        3. For each correlationId, fetch error/warn logs
+        4. Return the combined, deduplicated error context
+
+        Args:
+            api_path: API route pattern (e.g., "/projects/:projectId/roofline").
+            project_id: The project ID to filter on.
+            proposal_id: Optional proposal ID for more precise filtering.
+
+        Returns:
+            List of log entries with error/warn context.
+        """
+        if not self.api_url or not self.api_key:
+            print("[SigNoz] API URL or key not configured — cannot fetch logs")
+            return []
+
+        # Replace route params with the actual IDs
+        concrete_path = api_path.replace(":projectId", project_id)
+        if proposal_id:
+            concrete_path = concrete_path.replace(":proposalId", proposal_id)
+
+        try:
+            return self._fetch_logs_by_api_live(concrete_path, project_id)
+        except Exception as e:
+            print(f"[SigNoz] API call failed: {e}")
+            return []
+
+    def _fetch_logs_by_api_live(
+        self,
+        concrete_path: str,
+        project_id: str,
+    ) -> list[dict[str, Any]]:
+        """Live SigNoz query: find logs by API path, then follow correlationIds."""
+        # Step 1: Find base logs matching the API endpoint + projectId
+        expression = f"endpoint = '{concrete_path}'"
+        payload = self._build_signoz_payload(expression)
+        base_logs = self._call_signoz(payload)
+        print(f"[SigNoz] Base logs for {concrete_path}: {len(base_logs)}")
+
+        if not base_logs:
+            # Try a broader search with just the projectId
+            expression = f"body CONTAINS '{project_id}'"
+            payload = self._build_signoz_payload(expression)
+            base_logs = self._call_signoz(payload)
+            print(f"[SigNoz] Broadened search for projectId {project_id}: {len(base_logs)}")
+
+        if not base_logs:
+            return []
+
+        # Step 2: Extract unique correlationIds
+        correlation_ids: set[str] = set()
+        for log in base_logs:
+            attrs = log.get("attributes_string", log.get("attributes", {}))
+            corr_id = attrs.get("correlationId", "")
+            if corr_id:
+                correlation_ids.add(corr_id)
+
+        if not correlation_ids:
+            print("[SigNoz] No correlationIds found, returning base logs")
+            return base_logs
+
+        # Step 3: For each correlationId, fetch error/warn context
+        all_error_logs: list[dict] = []
+        seen_span_ids: set[str] = set()
+
+        for corr_id in correlation_ids:
+            expression = (
+                f"correlationId='{corr_id}' AND "
+                f"(severity_text = 'Error' OR severity_text='Warn' "
+                f"or severity_text='warn')"
+            )
+            payload = self._build_signoz_payload(expression)
+            error_logs = self._call_signoz(payload)
+
+            for log in error_logs:
+                span_id = log.get("span_id", log.get("spanID", ""))
+                if span_id and span_id in seen_span_ids:
+                    continue
+                if span_id:
+                    seen_span_ids.add(span_id)
+                all_error_logs.append(log)
+
+        print(
+            f"[SigNoz] Followed {len(correlation_ids)} correlationId(s), "
+            f"got {len(all_error_logs)} error/warn logs"
+        )
+
+        # Return base logs + error context, deduplicated
+        combined = base_logs + all_error_logs
+        return combined
+
     def fetch_logs(self, query: str) -> list[dict[str, Any]]:
         """
-        Fetch logs relevant to the given error query.
+        Fetch logs relevant to the given error query from SigNoz.
 
-        If api_url and api_key are configured, queries SigNoz directly.
-        Otherwise falls back to mock keyword matching.
-        Returns a list of log entries sorted by timestamp.
+        Args:
+            query: Free-text search query (used in body CONTAINS filter).
+
+        Returns:
+            List of log entries sorted by timestamp.
         """
-        # Try real SigNoz first
-        if not self.use_mock and self.api_url and self.api_key:
-            try:
-                # Use body CONTAINS filter — SigNoz expects a filter expression, not free text
-                expression = f"body CONTAINS '{query}'"
-                payload = self._build_signoz_payload(expression)
-                logs = self._call_signoz(payload)
-                if logs:
-                    print(f"[SigNoz] Returning {len(logs)} live logs")
-                    return logs
-                print("[SigNoz] No live logs found, falling back to mock data")
-            except Exception as e:
-                print(f"[SigNoz] API call failed: {e}, falling back to mock data")
+        if not self.api_url or not self.api_key:
+            print("[SigNoz] API URL or key not configured — cannot fetch logs")
+            return []
 
-        # Fallback: mock keyword matching
-        query_lower = query.lower()
-        matched_logs: list[dict] = []
-
-        for scenario in self._scenarios:
-            keywords = scenario.get("keywords", [])
-            if any(kw in query_lower for kw in keywords):
-                matched_logs.extend(scenario.get("logs", []))
-
-        matched_logs.sort(key=lambda log: log.get("timestamp", ""))
-        print(f"[SigNoz] Returning {len(matched_logs)} mock logs")
-        return matched_logs
+        try:
+            expression = f"body CONTAINS '{query}'"
+            payload = self._build_signoz_payload(expression)
+            logs = self._call_signoz(payload)
+            print(f"[SigNoz] Returning {len(logs)} logs")
+            return logs
+        except Exception as e:
+            print(f"[SigNoz] API call failed: {e}")
+            return []
 
     def format_logs_for_prompt(self, logs: list[dict]) -> str:
         """Format log entries into a readable string for the LLM prompt."""

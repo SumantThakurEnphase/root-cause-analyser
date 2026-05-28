@@ -9,7 +9,7 @@ Teams User → MS Teams → Bot Framework (Python) → FastAPI Server
                                                       │
                                     ┌─────────────────┼─────────────────┐
                                     ▼                 ▼                 ▼
-                              SigNoz Mock       ChromaDB           Gemini API
+                              SigNoz API       ChromaDB           Gemini API
                              (log fetcher)    (code search)      (LLM analysis)
 ```
 
@@ -53,6 +53,8 @@ pip install -r requirements.txt
 cp .env.example .env
 # Edit .env and set:
 #   GEMINI_API_KEY=your-key-here
+#   SIGNOZ_API_KEY=your-signoz-bearer-token
+#   SIGNOZ_API_URL=https://monitoring-develop.solargraf.com/api/v5/query_range  (default)
 #   MICROSOFT_APP_ID=your-bot-app-id        (optional for local testing)
 #   MICROSOFT_APP_PASSWORD=your-bot-secret   (optional for local testing)
 ```
@@ -112,41 +114,29 @@ root-cause-analyser/
 │   ├── rca_agent.py           # Orchestrator: logs + code search + LLM
 │   └── prompts.py             # System/user prompt templates
 ├── services/
-│   ├── signoz_client.py       # Mock SigNoz log fetcher
+│   ├── signoz_client.py       # SigNoz log fetcher (live API)
+│   ├── input_parser.py        # URL parsing + AnalysisRequest
+│   ├── api_discovery.py       # API endpoint discovery via codebase search
 │   ├── code_search.py         # ChromaDB query interface
 │   └── gemini_client.py       # Gemini API wrapper
 ├── indexer/
 │   └── index_codebase.py      # Codebase → ChromaDB indexer
-└── mock_data/
-    └── signoz_logs.json       # Sample log entries for demos
 ```
 
-## Demo Scenarios
+## Usage
 
-The mock SigNoz data includes these pre-built scenarios:
+### With project URL (project-aware pipeline)
 
-| Error Query | Root Cause |
-|-------------|-----------|
-| "Download DWG from SDT/EDT is failing" | Missing `await` in `libs/greenthink/index.js:getSiteplan` |
-| "Auto-design timeout during panel placement" | Infinite loop in design-tool panel placer |
-| "3D rendering crash" | Null geometry object in `libs/drawing3d/` |
-| "Financial calculation returning NaN" | Division by zero from empty Genability response |
-| "Screenshot generation failing" | Missing Chromium browser bundle |
+```bash
+curl -X POST http://localhost:3978/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"url": "https://app.solargraf.com/projects/342321", "query": "roofline detection not working"}'
+```
 
-## Swapping Mock SigNoz for Real
+### Without URL (query-only)
 
-Replace the `SigNozClient.fetch_logs()` method in `services/signoz_client.py` with actual HTTP calls:
-
-```python
-import aiohttp
-
-async def fetch_logs(self, query: str) -> list[dict]:
-    async with aiohttp.ClientSession() as session:
-        async with session.post(
-            f"{self.api_url}/api/v3/query_range",
-            headers={"Authorization": f"Bearer {self.api_key}"},
-            json={"query": query, "limit": 50},
-        ) as resp:
-            data = await resp.json()
-            return data.get("result", [])
+```bash
+curl -X POST http://localhost:3978/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Download DWG from SDT/EDT is failing"}'
 ```

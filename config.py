@@ -7,7 +7,7 @@ load_dotenv()
 class Config:
     # Gemini
     GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
-    GEMINI_MODEL: str = "gemini-3.5-flash"
+    GEMINI_MODEL: str = "gemini-2.5-flash"
     # Print key
     print("GEMINI_API_KEY:", GEMINI_API_KEY)
 
@@ -53,9 +53,8 @@ class Config:
     }
 
     # SigNoz
-    SIGNOZ_USE_MOCK: bool = os.getenv("SIGNOZ_USE_MOCK", "false").lower() == "true"
-    SIGNOZ_API_URL: str = os.getenv("SIGNOZ_API_URL", "http://localhost:3301")
-    SIGNOZ_API_KEY: str = os.getenv("SIGNOZ_API_KEY", "mock-key")
+    SIGNOZ_API_URL: str = os.getenv("SIGNOZ_API_URL", "https://monitoring-develop.solargraf.com/api/v5/query_range")
+    SIGNOZ_API_KEY: str = os.getenv("SIGNOZ_API_KEY", "")
 
     # Embedding model (runs locally via sentence-transformers)
     EMBEDDING_MODEL: str = os.getenv("EMBEDDING_MODEL", "flax-sentence-embeddings/st-codesearch-distilroberta-base")

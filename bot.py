@@ -9,6 +9,7 @@ from botbuilder.core import ActivityHandler, TurnContext, MessageFactory, CardFa
 from botbuilder.schema import Activity, ActivityTypes
 
 from agents.rca_agent import RCAAgent
+from services.input_parser import extract_url_from_message
 
 
 class RCABot(ActivityHandler):
@@ -17,31 +18,40 @@ class RCABot(ActivityHandler):
 
     async def on_message_activity(self, turn_context: TurnContext) -> None:
         """Handle incoming messages from Teams users."""
-        query = turn_context.activity.text or ""
-        query = query.strip()
+        raw_message = turn_context.activity.text or ""
+        raw_message = raw_message.strip()
 
-        if not query:
+        if not raw_message:
             await turn_context.send_activity(
                 MessageFactory.text("Please provide an error description to analyze.")
             )
             return
 
         # Handle special commands
-        if query.lower() in ("/help", "help"):
+        if raw_message.lower() in ("/help", "help"):
             await self._send_help(turn_context)
             return
+
+        # Extract URL (if present) and issue description from the message
+        url, query = extract_url_from_message(raw_message)
+
+        if not query:
+            query = raw_message  # Use full message as query if URL extraction consumed everything
 
         # Send a "thinking" indicator
         await turn_context.send_activity(
             Activity(type=ActivityTypes.typing)
         )
-        await turn_context.send_activity(
-            MessageFactory.text("🔍 Analyzing your error report... This may take a moment.")
-        )
+
+        status_msg = "🔍 Analyzing your error report..."
+        if url:
+            status_msg += f"\n📎 Detected project URL: `{url}`"
+        status_msg += "\nThis may take a moment."
+        await turn_context.send_activity(MessageFactory.text(status_msg))
 
         try:
             # Run the RCA pipeline
-            rca_result = await self.rca_agent.analyze(query)
+            rca_result = await self.rca_agent.analyze(query, url=url or "")
 
             # Send the result as an Adaptive Card
             card = self._build_adaptive_card(query, rca_result)
@@ -78,15 +88,15 @@ class RCABot(ActivityHandler):
             "I analyze error reports by searching SigNoz logs and the Solargraf codebase "
             "(solargraf-api, graf-apps, design-tool) to identify the root cause.\n\n"
             "**How to use:**\n"
-            "Just send me a message describing the error. Be as specific as possible.\n\n"
+            "Send me a Solargraf project URL + describe the issue. I'll figure out which "
+            "API is responsible and check the logs for that project.\n\n"
             "**Example queries:**\n"
-            "- `Download DWG from SDT/EDT is failing`\n"
-            "- `Auto-design timeout during panel placement`\n"
-            "- `3D rendering crash on proposal view`\n"
-            "- `Financial calculation returning NaN`\n"
-            "- `Screenshot generation failing`\n\n"
+            "- `https://app.solargraf.com/projects/342321 roofline detection not working`\n"
+            "- `https://app.solargraf.com/projects/12345/proposals/abc download DWG failing`\n"
+            "- `Auto-design timeout during panel placement` (no URL — query-only mode)\n\n"
             "**What I return:**\n"
             "A structured Root Cause Analysis including:\n"
+            "- Cause category (Code Bug, Config Issue, Infra, etc.)\n"
             "- Root cause explanation\n"
             "- Affected file(s) and function(s)\n"
             "- Evidence from logs\n"
