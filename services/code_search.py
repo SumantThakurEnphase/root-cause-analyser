@@ -8,6 +8,7 @@ import re
 from typing import Optional
 
 import chromadb
+from chromadb.utils.embedding_functions.sentence_transformer_embedding_function import SentenceTransformerEmbeddingFunction
 from config import config
 
 # Patterns to extract references from code snippets
@@ -38,9 +39,14 @@ class CodeSearchService:
                 host=config.CHROMADB_HOST,
                 port=config.CHROMADB_PORT,
             )
+            embedding_fn = SentenceTransformerEmbeddingFunction(
+                model_name=config.EMBEDDING_MODEL,
+                normalize_embeddings=True,
+            )
             self._collection = self._client.get_or_create_collection(
                 name=config.CHROMADB_COLLECTION,
                 metadata={"hnsw:space": "cosine"},
+                embedding_function=embedding_fn,
             )
         return self._collection
 
@@ -89,6 +95,7 @@ class CodeSearchService:
                         "code": doc,
                         "file_path": meta.get("file_path", "unknown"),
                         "repo": meta.get("repo", "unknown"),
+                        "function_name": meta.get("function_name", ""),
                         "chunk_index": meta.get("chunk_index", 0),
                         "total_chunks": meta.get("total_chunks", 1),
                         "score": round(1 - dist, 4),  # cosine similarity
@@ -125,14 +132,14 @@ class CodeSearchService:
 
         # Pass 2: search for each extracted reference
         seen_keys = {
-            (s["repo"], s["file_path"], s["chunk_index"]) for s in initial_snippets
+            (s["repo"], s["file_path"], s.get("function_name", ""), s["chunk_index"]) for s in initial_snippets
         }
         followup_snippets: list[dict] = []
 
         for ref_query in ref_queries:
             extra = self.search(ref_query, top_k=3, repo_filter=repo_filter)
             for s in extra:
-                key = (s["repo"], s["file_path"], s["chunk_index"])
+                key = (s["repo"], s["file_path"], s.get("function_name", ""), s["chunk_index"])
                 if key not in seen_keys:
                     seen_keys.add(key)
                     followup_snippets.append(s)
@@ -199,7 +206,8 @@ class CodeSearchService:
 
         parts = []
         for i, s in enumerate(snippets, 1):
-            header = f"--- Snippet {i} [{s['repo']}] {s['file_path']} (chunk {s['chunk_index']+1}/{s['total_chunks']}, relevance: {s['score']}) ---"
+            fn_label = f" :: {s['function_name']}" if s.get('function_name') else ""
+            header = f"--- Snippet {i} [{s['repo']}] {s['file_path']}{fn_label} (chunk {s['chunk_index']+1}/{s['total_chunks']}, relevance: {s['score']}) ---"
             parts.append(f"{header}\n{s['code']}")
 
         return "\n\n".join(parts)

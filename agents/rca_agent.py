@@ -51,6 +51,7 @@ class RCAAgent:
             code_snippets=formatted_snippets,
         )
         full_prompt = f"{SYSTEM_PROMPT}\n\n{user_prompt}"
+        print(full_prompt)
 
         # Step 4: Call Gemini
         response = await self.gemini.analyze(full_prompt)

@@ -10,44 +10,202 @@ Usage:
 import argparse
 import hashlib
 import os
+import re
 import sys
 import time
 
 import chromadb
+from chromadb.utils.embedding_functions.sentence_transformer_embedding_function import SentenceTransformerEmbeddingFunction
 
 # Add parent dir so config is importable when run as script
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from config import config
 
+# ---------------------------------------------------------------------------
+# Regex patterns that mark the start of a JS/TS function, class, or method.
+# We look for these at the beginning of a line (after optional whitespace).
+# ---------------------------------------------------------------------------
+_FUNC_START_RE = re.compile(
+    r"^[ \t]*"
+    r"(?:"
+    r"(?:export\s+)?(?:default\s+)?(?:async\s+)?function\s*\*?\s*\w*\s*\("
+    r"|"
+    r"(?:export\s+)?(?:default\s+)?class\s+\w+"
+    r"|"
+    r"(?:export\s+)?(?:const|let|var)\s+\w+\s*=\s*(?:async\s+)?(?:\([^)]*\)|\w+)\s*=>"
+    r"|"
+    r"(?:export\s+)?(?:const|let|var)\s+\w+\s*=\s*(?:async\s+)?function\s*\*?\s*\("
+    r"|"
+    r"(?:static\s+)?(?:async\s+)?(?:get\s+|set\s+)?\w+\s*\([^)]*\)\s*\{"
+    r")",
+    re.MULTILINE,
+)
+
+# Pattern to extract a human-readable name from the first line of a chunk
+_FUNC_NAME_RE = re.compile(
+    r"(?:function\s*\*?\s+(\w+))"
+    r"|(?:class\s+(\w+))"
+    r"|(?:(?:const|let|var)\s+(\w+)\s*=)"
+    r"|(?:(?:static\s+)?(?:async\s+)?(?:get\s+|set\s+)?(\w+)\s*\()"
+)
+
+
+def _extract_func_name(line: str) -> str:
+    """Try to pull a function / class name from the opening line."""
+    m = _FUNC_NAME_RE.search(line)
+    if m:
+        return next((g for g in m.groups() if g), "anonymous")
+    return "anonymous"
+
+
+def _find_block_end(content: str, start: int) -> int:
+    """Given a position *before* the opening '{', find matching '}' using brace counting."""
+    depth = 0
+    i = start
+    in_string = None  # tracks quote char
+    in_line_comment = False
+    in_block_comment = False
+    length = len(content)
+
+    while i < length:
+        ch = content[i]
+        prev = content[i - 1] if i > 0 else ""
+
+        # --- handle comments ---
+        if in_line_comment:
+            if ch == "\n":
+                in_line_comment = False
+            i += 1
+            continue
+        if in_block_comment:
+            if ch == "/" and prev == "*":
+                in_block_comment = False
+            i += 1
+            continue
+        if ch == "/" and i + 1 < length:
+            nxt = content[i + 1]
+            if nxt == "/":
+                in_line_comment = True
+                i += 2
+                continue
+            if nxt == "*":
+                in_block_comment = True
+                i += 2
+                continue
+
+        # --- handle strings ---
+        if in_string:
+            if ch == in_string and prev != "\\":
+                in_string = None
+            i += 1
+            continue
+        if ch in ('"', "'", "`"):
+            in_string = ch
+            i += 1
+            continue
+
+        # --- brace counting ---
+        if ch == "{":
+            depth += 1
+        elif ch == "}":
+            depth -= 1
+            if depth == 0:
+                return i  # position of closing brace
+
+        i += 1
+
+    return length - 1  # fallback: end of content
+
+
+def _chunk_file_by_functions(content: str, max_chars: int) -> list[dict]:
+    """
+    Split JS/TS source into function-level chunks.
+
+    Returns a list of dicts: {"code": str, "name": str}
+    - Each recognised function / class / arrow-fn becomes its own chunk.
+    - Top-level code between functions is grouped as an "imports_and_setup" chunk.
+    - Any chunk that exceeds *max_chars* is further split on newlines.
+    """
+    chunks: list[dict] = []
+    matches = list(_FUNC_START_RE.finditer(content))
+
+    if not matches:
+        # No recognisable functions → fall back to line-based splitting
+        for piece in _split_large(content, max_chars):
+            chunks.append({"code": piece, "name": "module"})
+        return chunks
+
+    prev_end = 0
+
+    for match in matches:
+        func_start = match.start()
+
+        # Capture top-level code *before* this function
+        if func_start > prev_end:
+            preamble = content[prev_end:func_start].strip()
+            if preamble:
+                for piece in _split_large(preamble, max_chars):
+                    chunks.append({"code": piece, "name": "imports_and_setup"})
+
+        # Find the opening brace for this block
+        brace_pos = content.find("{", match.start())
+        if brace_pos == -1:
+            # Arrow fn without braces or declaration — take until next match or EOF
+            next_start = matches[matches.index(match) + 1].start() if match != matches[-1] else len(content)
+            block = content[func_start:next_start].strip()
+        else:
+            block_end = _find_block_end(content, brace_pos)
+            block = content[func_start:block_end + 1].strip()
+
+        first_line = block.split("\n", 1)[0]
+        name = _extract_func_name(first_line)
+
+        for piece in _split_large(block, max_chars):
+            chunks.append({"code": piece, "name": name})
+
+        prev_end = func_start + len(block)
+        # Advance past any trailing whitespace in original content
+        while prev_end < len(content) and content[prev_end] in (" ", "\t", "\n", "\r"):
+            prev_end += 1
+
+    # Trailing code after last function
+    if prev_end < len(content):
+        tail = content[prev_end:].strip()
+        if tail:
+            for piece in _split_large(tail, max_chars):
+                chunks.append({"code": piece, "name": "module_tail"})
+
+    return chunks
+
+
+def _split_large(text: str, max_chars: int) -> list[str]:
+    """Split text that exceeds max_chars on newline boundaries."""
+    if len(text) <= max_chars:
+        return [text]
+
+    pieces: list[str] = []
+    lines = text.split("\n")
+    current: list[str] = []
+    current_len = 0
+
+    for line in lines:
+        line_len = len(line) + 1
+        if current_len + line_len > max_chars and current:
+            pieces.append("\n".join(current))
+            current = []
+            current_len = 0
+        current.append(line)
+        current_len += line_len
+
+    if current:
+        pieces.append("\n".join(current))
+
+    return pieces
+
 
 def _should_skip(dirpath: str) -> bool:
     parts = dirpath.replace("\\", "/").split("/")
     return any(part in config.SKIP_DIRS for part in parts)
-
-
-def _chunk_file(content: str, max_size: int) -> list[str]:
-    """Split file content into chunks, trying to break on newlines."""
-    if len(content) <= max_size:
-        return [content]
-
-    chunks = []
-    lines = content.split("\n")
-    current_chunk: list[str] = []
-    current_size = 0
-
-    for line in lines:
-        line_len = len(line) + 1  # +1 for newline
-        if current_size + line_len > max_size and current_chunk:
-            chunks.append("\n".join(current_chunk))
-            current_chunk = []
-            current_size = 0
-        current_chunk.append(line)
-        current_size += line_len
-
-    if current_chunk:
-        chunks.append("\n".join(current_chunk))
-
-    return chunks
 
 
 def _stable_id(repo: str, rel_path: str, chunk_idx: int) -> str:
@@ -96,17 +254,18 @@ def index_repo(
                 continue
 
             file_count += 1
-            chunks = _chunk_file(content, config.MAX_CHUNK_SIZE)
+            func_chunks = _chunk_file_by_functions(content, config.MAX_CHUNK_CHARS)
 
-            for idx, chunk in enumerate(chunks):
+            for idx, chunk_info in enumerate(func_chunks):
                 doc_id = _stable_id(repo_name, rel_path, idx)
-                documents.append(chunk)
+                documents.append(chunk_info["code"])
                 metadatas.append(
                     {
                         "repo": repo_name,
                         "file_path": rel_path,
+                        "function_name": chunk_info["name"],
                         "chunk_index": idx,
-                        "total_chunks": len(chunks),
+                        "total_chunks": len(func_chunks),
                         "file_extension": ext,
                     }
                 )
@@ -154,9 +313,14 @@ def main():
         except Exception:
             pass
 
+    embedding_fn = SentenceTransformerEmbeddingFunction(
+        model_name=config.EMBEDDING_MODEL,
+        normalize_embeddings=True,
+    )
     collection = client.get_or_create_collection(
         name=config.CHROMADB_COLLECTION,
         metadata={"hnsw:space": "cosine"},
+        embedding_function=embedding_fn,
     )
 
     repos_to_index = (

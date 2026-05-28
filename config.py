@@ -6,7 +6,7 @@ load_dotenv()
 
 class Config:
     # Gemini
-    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "AIzaSyBG2hzb4D6Oe2qUW8x5Trz5_LnnQQfsKLY")
+    GEMINI_API_KEY: str = os.getenv("GEMINI_API_KEY", "")
     GEMINI_MODEL: str = "gemini-3.5-flash"
     # Print key
     print("GEMINI_API_KEY:", GEMINI_API_KEY)
@@ -57,9 +57,12 @@ class Config:
     SIGNOZ_API_URL: str = os.getenv("SIGNOZ_API_URL", "http://localhost:3301")
     SIGNOZ_API_KEY: str = os.getenv("SIGNOZ_API_KEY", "mock-key")
 
+    # Embedding model (runs locally via sentence-transformers)
+    EMBEDDING_MODEL: str = os.getenv("EMBEDDING_MODEL", "flax-sentence-embeddings/st-codesearch-distilroberta-base")
+
     # Code search
     CODE_SEARCH_TOP_K: int = 10
-    MAX_CHUNK_SIZE: int = 1500  # characters per code chunk
+    MAX_CHUNK_CHARS: int = 4000  # fallback max chars for non-function chunks
 
 
 config = Config()

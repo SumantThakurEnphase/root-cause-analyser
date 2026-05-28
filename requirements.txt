@@ -9,3 +9,4 @@ requests>=2.31.0
 python-dotenv==1.0.1
 pydantic==2.7.4
 numpy<2.0.0
+sentence-transformers>=2.2.0
