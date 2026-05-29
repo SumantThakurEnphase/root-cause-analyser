@@ -15,7 +15,7 @@ from services.code_search import CodeSearchService
 from services.gemini_client import GeminiClient
 from services.input_parser import parse_input, extract_url_from_message, AnalysisRequest
 from services.api_discovery import APIDiscoveryService
-from agents.prompts import SYSTEM_PROMPT, CATEGORY_PROMPTS, USER_PROMPT_TEMPLATE
+from agents.prompts import SYSTEM_PROMPT, CATEGORY_PROMPTS, USER_PROMPT_TEMPLATE, VALIDATION_INTENT_PROMPT
 from agents.cause_categories import (
     CauseCategory,
     CATEGORY_LABELS,
@@ -113,13 +113,18 @@ class RCAAgent:
         )
         print(f"[RCA] Classified as: {CATEGORY_LABELS.get(category, category)} ({classification})")
 
-        # Step 5: Build category-specific prompt and run deep analysis
-        system_prompt = CATEGORY_PROMPTS.get(category, CATEGORY_PROMPTS["unknown"])
-
-        # Search codebase for relevant code snippets
+        # Step 5: Search codebase for relevant code snippets
         search_query = self._build_search_query(request.issue_description, all_logs)
         snippets = self.code_search.search_with_call_chain(search_query)
         formatted_snippets = self.code_search.format_snippets_for_prompt(snippets)
+
+        # Step 6: Detect if this is intentional business logic (may override category)
+        category = await self._detect_validation_intent(
+            request.issue_description, snippets, category
+        )
+
+        # Step 7: Build category-specific prompt and run deep analysis
+        system_prompt = CATEGORY_PROMPTS.get(category, CATEGORY_PROMPTS["unknown"])
 
         user_prompt = USER_PROMPT_TEMPLATE.format(
             query=request.issue_description,
@@ -151,7 +156,10 @@ class RCAAgent:
         snippets = self.code_search.search_with_call_chain(search_query)
         formatted_snippets = self.code_search.format_snippets_for_prompt(snippets)
 
-        # Step 4: Build the full prompt with category-specific system prompt
+        # Step 4: Detect if this is intentional business logic (may override category)
+        category = await self._detect_validation_intent(query, snippets, category)
+
+        # Step 5: Build the full prompt with category-specific system prompt
         system_prompt = CATEGORY_PROMPTS.get(category, CATEGORY_PROMPTS["unknown"])
 
         user_prompt = USER_PROMPT_TEMPLATE.format(
@@ -166,7 +174,7 @@ class RCAAgent:
         full_prompt = f"{system_prompt}\n\n{user_prompt}"
         print(f"[RCA] Sending prompt to Gemini ({len(full_prompt)} chars)")
 
-        # Step 5: Call Gemini
+        # Step 6: Call Gemini
         response = await self.gemini.analyze(full_prompt)
         return response
 
@@ -206,6 +214,81 @@ class RCAAgent:
         except (json.JSONDecodeError, AttributeError):
             print(f"[RCA] Failed to parse classifier response: {text[:200]}")
             return "unknown", "{}"
+
+    async def _detect_validation_intent(
+        self, query: str, snippets: list[dict], current_category: str
+    ) -> str:
+        """
+        Check if the retrieved code snippets contain intentional business
+        logic / validation rules that explain the user's reported behavior.
+
+        If the code is enforcing an intentional rule, overrides the category
+        to 'expected_behavior'. Only checks snippets from design-tool and
+        graf-apps repos.
+
+        Args:
+            query: The user's issue description.
+            snippets: Code snippets from ChromaDB search.
+            current_category: The category from the initial classifier.
+
+        Returns:
+            The (possibly overridden) category string.
+        """
+        # Only check snippets from frontend / design-tool repos
+        relevant_snippets = [
+            s for s in snippets
+            if s.get("repo") in ("design-tool", "graf-apps")
+        ]
+
+        if not relevant_snippets:
+            return current_category
+
+        # Build a compact snippet summary (limit to top 5 by score)
+        snippet_texts = []
+        for s in relevant_snippets[:5]:
+            code = s.get("code", "")
+            if len(code) > 1500:
+                code = code[:1500] + "\n// ... (truncated)"
+            snippet_texts.append(
+                f"### {s.get('repo', 'unknown')}/{s.get('file_path', 'unknown')} "
+                f"({s.get('function_name', 'unknown')})\n```\n{code}\n```"
+            )
+
+        if not snippet_texts:
+            return current_category
+
+        prompt = VALIDATION_INTENT_PROMPT.format(
+            query=query,
+            snippets="\n\n".join(snippet_texts),
+        )
+
+        response = await self.gemini.analyze(prompt)
+
+        # Parse the JSON response
+        text = response.strip()
+        if "```json" in text:
+            text = text.split("```json", 1)[1].split("```", 1)[0]
+        elif "```" in text:
+            text = text.split("```", 1)[1].split("```", 1)[0]
+
+        try:
+            result = json.loads(text.strip())
+            is_expected = result.get("is_expected_behavior", False)
+            reasoning = result.get("reasoning", "")
+
+            if is_expected:
+                print(
+                    f"[RCA] Validation intent detected — overriding "
+                    f"'{current_category}' → 'expected_behavior' "
+                    f"(reason: {reasoning})"
+                )
+                return "expected_behavior"
+
+            print(f"[RCA] Validation intent check: not expected behavior ({reasoning})")
+        except (json.JSONDecodeError, AttributeError):
+            print(f"[RCA] Failed to parse validation intent response: {text[:200]}")
+
+        return current_category
 
     def _build_search_query(self, query: str, logs: list[dict]) -> str:
         """

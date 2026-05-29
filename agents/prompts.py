@@ -36,7 +36,7 @@ Always structure your response as follows:
 
 ## 🔍 Root Cause Analysis
 
-**Cause Category:** <Code Bug | Configuration Issue | Infrastructure | Third-Party API | Data Issue | Unknown>
+**Cause Category:** <Code Bug | Configuration Issue | Infrastructure | Third-Party API | Data Issue | Expected Behavior | Unknown>
 
 **Error:** <one-line summary>
 
@@ -221,6 +221,52 @@ Your job is to:
 {_RESPONSE_FORMAT}"""
 
 # ---------------------------------------------------------------------------
+# SYSTEM_PROMPT_EXPECTED — when behavior is intentional (business rule)
+# ---------------------------------------------------------------------------
+_EXPECTED_RESPONSE_FORMAT = """
+Always structure your response as follows:
+
+## ✅ Expected Behavior Analysis
+
+**Cause Category:** Expected Behavior
+
+**Summary:** <one-line summary of what the user is experiencing>
+
+**Why This Is Expected:** <clear explanation of the business rule or validation being enforced, referencing the specific code that implements it>
+
+**Validation Rule:**
+- **Rule:** <the specific rule, e.g. "Powerwall 3 requires a 1:1 match with Tesla Inverters">
+- **Enforced In:** `<repo>/<file_path>` — <function/line info>
+- **Trigger Condition:** <what triggers this validation>
+
+**User Action Required:**
+- <step-by-step instructions for the user to resolve their issue>
+
+**Confidence:** <High | Medium | Low>
+
+**Additional Notes:** <any helpful context, workarounds, or related documentation>
+"""
+
+SYSTEM_PROMPT_EXPECTED = f"""You are an expert analyst for the Solargraf/Roofgraf platform.
+{_PLATFORM_CONTEXT}
+
+The behavior reported by the user is **intentional** — the application is correctly enforcing
+a business rule, validation constraint, or design requirement.
+
+Your job is to:
+- Explain **why** this behavior is intentional, referencing the specific validation code
+- Describe the **business rule** being enforced in plain language
+- Tell the user **exactly what they need to do** to resolve their issue
+- Do **NOT** suggest code changes — the code is working as designed
+- Rate your **confidence level** (High / Medium / Low)
+
+## Important
+- Focus on helping the user understand the design intent and how to work within it.
+- Reference the specific code files and functions that enforce this rule.
+- Be empathetic — the user may not realize this is by design.
+{_EXPECTED_RESPONSE_FORMAT}"""
+
+# ---------------------------------------------------------------------------
 # SYSTEM_PROMPT_UNKNOWN — when the cause can't be determined
 # ---------------------------------------------------------------------------
 SYSTEM_PROMPT_UNKNOWN = f"""You are an expert Root Cause Analyser (RCA) for the Solargraf/Roofgraf platform.
@@ -244,6 +290,7 @@ CATEGORY_PROMPTS = {
     "infrastructure": SYSTEM_PROMPT_INFRA,
     "third_party_api": SYSTEM_PROMPT_THIRD_PARTY,
     "data_issue": SYSTEM_PROMPT_DATA,
+    "expected_behavior": SYSTEM_PROMPT_EXPECTED,
     "unknown": SYSTEM_PROMPT_UNKNOWN,
 }
 
@@ -279,4 +326,38 @@ USER_PROMPT_TEMPLATE = """## Incident Report
 
 Please analyze the above information and provide a structured Root Cause Analysis.
 Focus on identifying the exact root cause, the specific file and function where the issue originates, and a concrete suggested fix.
+"""
+
+# ---------------------------------------------------------------------------
+# Validation intent detection prompt — used to check if code snippets
+# represent intentional business logic before the final analysis
+# ---------------------------------------------------------------------------
+VALIDATION_INTENT_PROMPT = """You are analyzing code snippets from the Solargraf/Roofgraf platform to determine
+whether the user's reported issue is caused by an **intentional business rule / validation** or an **actual bug**.
+
+## User Issue
+{query}
+
+## Code Snippets
+{snippets}
+
+## Instructions
+
+Examine the code snippets above. Look for:
+- Validation checks (if/else conditions that enforce rules)
+- Error messages or modals shown to the user when constraints are violated
+- Compatibility checks (e.g. component pairing, count matching)
+- Required field enforcement
+- Business constraints (e.g. "must have at least one X for every Y")
+
+Determine: Is the behavior the user describes an **intentional validation/business rule** being
+correctly enforced by the code, or is it an **actual bug/defect**?
+
+Respond ONLY with a JSON object:
+{{{{
+  "is_expected_behavior": <true or false>,
+  "reasoning": "<1-2 sentence explanation of why this is or isn't intentional>",
+  "business_rule": "<if expected behavior, describe the rule in plain language; otherwise empty string>",
+  "user_guidance": "<if expected behavior, what should the user do to resolve their issue; otherwise empty string>"
+}}}}
 """
