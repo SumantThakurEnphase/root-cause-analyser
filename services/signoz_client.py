@@ -15,7 +15,7 @@ class SigNozClient:
         self.api_url = api_url
         self.api_key = api_key
 
-    def _build_signoz_payload(self, expression: str, lookback_ms: int = _DEFAULT_LOOKBACK_MS, limit: int = 20) -> dict:
+    def _build_signoz_payload(self, expression: str, lookback_ms: int = _DEFAULT_LOOKBACK_MS, limit: int = 2000) -> dict:
         """Build a SigNoz v5/query_range payload matching the JS issueAnalyzer format."""
         now = int(time.time() * 1000)
         return {
@@ -170,7 +170,6 @@ class SigNozClient:
                 if span_id:
                     seen_span_ids.add(span_id)
                 all_error_logs.append(log)
-            print(f"[SigNoz] Error logs {error_logs}")
 
         print(
             f"[SigNoz] Followed {len(correlation_ids)} correlationId(s), "

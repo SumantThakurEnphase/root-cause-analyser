@@ -13,7 +13,7 @@ import json
 from services.signoz_client import SigNozClient
 from services.code_search import CodeSearchService
 from services.gemini_client import GeminiClient
-from services.input_parser import parse_input, AnalysisRequest
+from services.input_parser import parse_input, extract_url_from_message, AnalysisRequest
 from services.api_discovery import APIDiscoveryService
 from agents.prompts import SYSTEM_PROMPT, CATEGORY_PROMPTS, USER_PROMPT_TEMPLATE
 from agents.cause_categories import (
@@ -56,6 +56,13 @@ class RCAAgent:
         Returns:
             Formatted RCA string from Gemini.
         """
+        # If no explicit URL provided, try to extract one from the query text
+        if not url:
+            extracted_url, remaining_query = extract_url_from_message(query)
+            if extracted_url:
+                url = extracted_url
+                query = remaining_query or query
+
         if url:
             return await self._analyze_with_url(url, query)
         return await self._analyze_query_only(query)

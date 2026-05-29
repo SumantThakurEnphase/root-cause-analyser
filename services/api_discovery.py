@@ -89,7 +89,33 @@ class APIDiscoveryService:
             "can", "from", "with", "be", "https", "http", "com",
             "projects", "proposals",  # generic path segments
         }
-        return [t for t in tokens if t and len(t) > 2 and t not in stop]
+        return [
+            t for t in tokens
+            if t and len(t) > 2 and t not in stop
+            and not re.match(r"^[0-9a-f]+$", t)  # skip hex fragments (UUID parts)
+        ]
+
+    @staticmethod
+    def _extract_path_segments(url_path: str) -> list[str]:
+        """Extract meaningful path segments, filtering out IDs and UUIDs."""
+        segments = []
+        for seg in url_path.strip("/").split("/"):
+            if not seg:
+                continue
+            # Skip numeric IDs
+            if seg.isdigit():
+                continue
+            # Skip UUID-like strings
+            if re.match(r"^[0-9a-f]{8}-", seg, re.IGNORECASE):
+                continue
+            # Skip very long hex strings
+            if len(seg) > 20 and re.match(r"^[0-9a-f]+$", seg, re.IGNORECASE):
+                continue
+            # Skip generic resource names already in stop list
+            if seg.lower() in ("projects", "proposals"):
+                continue
+            segments.append(seg)
+        return segments
 
     def _pre_filter_routes(
         self, issue_description: str, url_path: str, max_routes: int = 40
@@ -98,6 +124,8 @@ class APIDiscoveryService:
         keywords = self._extract_keywords(issue_description)
         if url_path:
             keywords.extend(self._extract_keywords(url_path))
+            # Also keep raw path segments (e.g. 'permitPlanSet') for exact matching
+            keywords.extend(seg.lower() for seg in self._extract_path_segments(url_path))
         keywords = list(dict.fromkeys(keywords))  # dedupe, preserve order
 
         if not keywords:

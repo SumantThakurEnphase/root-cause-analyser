@@ -31,29 +31,60 @@ class AnalysisRequest:
     url_path: str = ""
 
 
+_URL_RE = re.compile(r"https?://[^\s]+solargraf\.com[^\s]*")
+
+
+def _url_to_path(url: str) -> str:
+    """Convert a full URL or bare path to just the path component."""
+    if url.startswith("http://") or url.startswith("https://"):
+        return urlparse(url).path
+    return url
+
+
+def _strip_urls(text: str) -> str:
+    """Remove all solargraf URLs from text and collapse extra whitespace."""
+    cleaned = _URL_RE.sub("", text)
+    return re.sub(r"\s{2,}", " ", cleaned).strip()
+
+
 def parse_input(url: str, query: str) -> AnalysisRequest:
     """
     Parse a Solargraf app URL and issue description into an AnalysisRequest.
 
+    Also extracts URLs embedded in the query text. The most specific
+    (longest) path is used for url_path, and URLs are stripped from
+    the issue_description to keep keyword extraction clean.
+
     Args:
         url: Solargraf app URL or bare path containing projectId.
-        query: User's issue description (e.g., "roofline detection not working").
+        query: User's issue description (may also contain URLs).
 
     Returns:
         AnalysisRequest with extracted IDs and the issue description.
 
     Raises:
-        ValueError: If projectId cannot be extracted from the URL.
+        ValueError: If projectId cannot be extracted from any URL.
     """
-    # Normalize: if it looks like a full URL, parse it; otherwise treat as bare path
-    if url.startswith("http://") or url.startswith("https://"):
-        parsed = urlparse(url)
-        path = parsed.path
-    else:
-        path = url
+    # Collect all candidate paths: from the explicit url param and from the query
+    paths: list[str] = []
+    if url:
+        paths.append(_url_to_path(url))
+
+    for match in _URL_RE.finditer(query):
+        matched_url = match.group(0).rstrip(".,;:!?")
+        paths.append(_url_to_path(matched_url))
+
+    if not paths:
+        raise ValueError(
+            f"No Solargraf URL found in url or query. "
+            "Expected format: https://app.solargraf.com/projects/<projectId>"
+        )
+
+    # Pick the most specific path (longest, has the most segments)
+    best_path = max(paths, key=len)
 
     # Extract projectId
-    project_match = _PROJECT_RE.search(path)
+    project_match = _PROJECT_RE.search(best_path)
     if not project_match:
         raise ValueError(
             f"Could not extract projectId from URL: {url}. "
@@ -62,15 +93,18 @@ def parse_input(url: str, query: str) -> AnalysisRequest:
     project_id = project_match.group(1)
 
     # Extract optional proposalId
-    proposal_match = _PROPOSAL_RE.search(path)
+    proposal_match = _PROPOSAL_RE.search(best_path)
     proposal_id = proposal_match.group(1) if proposal_match else None
+
+    # Clean URLs out of the issue description
+    clean_query = _strip_urls(query)
 
     return AnalysisRequest(
         project_id=project_id,
         proposal_id=proposal_id,
-        issue_description=query.strip(),
+        issue_description=clean_query,
         raw_url=url,
-        url_path=path,
+        url_path=best_path,
     )
 
 
