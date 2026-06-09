@@ -113,7 +113,7 @@ async def analyze(request: RCARequest):
         result = await rca_agent.analyze(request.query, url=request.url or "")
 
         # Write the analysis output to analysis.md
-        output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "analysis.md")
+        output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "prod_503.md")
         with open(output_path, "w") as f:
             f.write(result)
         print(f"[RCA] Analysis written to {output_path}")

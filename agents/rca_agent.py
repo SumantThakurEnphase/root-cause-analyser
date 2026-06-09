@@ -9,6 +9,7 @@ RCA Agent — orchestrates the full incident analysis pipeline:
 """
 
 import json
+import os
 
 from services.signoz_client import SigNozClient
 from services.code_search import CodeSearchService
@@ -107,6 +108,9 @@ class RCAAgent:
 
         formatted_logs = self.signoz.format_logs_for_prompt(all_logs)
 
+        # Dump logs to files for analysis
+        self._dump_logs(all_logs, formatted_logs, tag="url")
+
         # Step 4: Classify the cause category
         category, classification = await self._classify_cause(
             request.issue_description, formatted_logs
@@ -136,6 +140,7 @@ class RCAAgent:
         )
 
         full_prompt = f"{system_prompt}\n\n{user_prompt}"
+        self._dump_prompt(full_prompt, tag="url")
         print(f"[RCA] Sending prompt to Gemini ({len(full_prompt)} chars)")
 
         response = await self.gemini.analyze(full_prompt)
@@ -146,6 +151,9 @@ class RCAAgent:
         # Step 1: Fetch logs
         logs = self.signoz.fetch_logs(query)
         formatted_logs = self.signoz.format_logs_for_prompt(logs)
+
+        # Dump logs to files for analysis
+        self._dump_logs(logs, formatted_logs, tag="query")
 
         # Step 2: Classify cause
         category, classification = await self._classify_cause(query, formatted_logs)
@@ -172,6 +180,7 @@ class RCAAgent:
         )
 
         full_prompt = f"{system_prompt}\n\n{user_prompt}"
+        self._dump_prompt(full_prompt, tag="query")
         print(f"[RCA] Sending prompt to Gemini ({len(full_prompt)} chars)")
 
         # Step 6: Call Gemini
@@ -289,6 +298,70 @@ class RCAAgent:
             print(f"[RCA] Failed to parse validation intent response: {text[:200]}")
 
         return current_category
+
+    def _dump_prompt(self, prompt: str, tag: str = "") -> None:
+        """Write the full Gemini prompt to a file for debugging."""
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        dump_dir = os.path.join(base_dir, "log_dumps")
+        os.makedirs(dump_dir, exist_ok=True)
+        path = os.path.join(dump_dir, f"gemini_prompt_{tag}.txt")
+        with open(path, "w") as f:
+            f.write(prompt)
+        print(f"[RCA] Prompt written to {path} ({len(prompt):,} chars)")
+
+    def _dump_logs(self, raw_logs: list[dict], formatted_logs: str, tag: str = "") -> None:
+        """Write raw and formatted logs to files for debugging / analysis."""
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        dump_dir = os.path.join(base_dir, "log_dumps")
+        os.makedirs(dump_dir, exist_ok=True)
+
+        raw_path = os.path.join(dump_dir, f"raw_logs_{tag}.json")
+        fmt_path = os.path.join(dump_dir, f"formatted_logs_{tag}.txt")
+        stats_path = os.path.join(dump_dir, f"log_stats_{tag}.txt")
+
+        with open(raw_path, "w") as f:
+            json.dump(raw_logs, f, indent=2, default=str)
+
+        with open(fmt_path, "w") as f:
+            f.write(formatted_logs)
+
+        # Compute stats
+        total_raw_chars = len(json.dumps(raw_logs, default=str))
+        total_fmt_chars = len(formatted_logs)
+        log_count = len(raw_logs)
+
+        # Per-log size breakdown
+        per_log_sizes = []
+        for i, log in enumerate(raw_logs):
+            fields = SigNozClient._extract_log_fields(log)
+            entry_size = sum(len(str(v)) for v in fields.values())
+            per_log_sizes.append((i, entry_size, fields.get("severity", ""), fields.get("endpoint", "")))
+
+        per_log_sizes.sort(key=lambda x: x[1], reverse=True)
+
+        with open(stats_path, "w") as f:
+            f.write(f"Total logs: {log_count}\n")
+            f.write(f"Raw JSON size: {total_raw_chars:,} chars\n")
+            f.write(f"Formatted prompt size: {total_fmt_chars:,} chars\n")
+            f.write(f"\n--- Top 20 largest logs (by extracted field size) ---\n")
+            for idx, size, severity, endpoint in per_log_sizes[:20]:
+                f.write(f"  Log #{idx}: {size:,} chars | severity={severity} | endpoint={endpoint}\n")
+            f.write(f"\n--- Size distribution ---\n")
+            if per_log_sizes:
+                sizes = [s[1] for s in per_log_sizes]
+                f.write(f"  Min: {min(sizes):,}  Max: {max(sizes):,}  Avg: {sum(sizes)//len(sizes):,}\n")
+                buckets = {"<100": 0, "100-500": 0, "500-1000": 0, "1000-2000": 0, ">2000": 0}
+                for s in sizes:
+                    if s < 100: buckets["<100"] += 1
+                    elif s < 500: buckets["100-500"] += 1
+                    elif s < 1000: buckets["500-1000"] += 1
+                    elif s < 2000: buckets["1000-2000"] += 1
+                    else: buckets[">2000"] += 1
+                for bucket, count in buckets.items():
+                    f.write(f"  {bucket}: {count} logs\n")
+
+        print(f"[RCA] Log dumps written to {dump_dir}/")
+        print(f"[RCA] Stats: {log_count} logs, {total_fmt_chars:,} formatted chars")
 
     def _build_search_query(self, query: str, logs: list[dict]) -> str:
         """

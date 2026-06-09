@@ -32,13 +32,16 @@ _PLATFORM_CONTEXT = """The Solargraf/Roofgraf platform consists of three main re
 # Shared response format (appended to every category prompt)
 # ---------------------------------------------------------------------------
 _RESPONSE_FORMAT = """
-Always structure your response as follows:
+Always structure your response as follows.
+IMPORTANT: If the logs reveal **multiple distinct errors** (different error messages, different
+status codes, or different endpoints), report EACH one as a separate numbered error section.
+Do NOT collapse them into a single error.
 
 ## 🔍 Root Cause Analysis
 
 **Cause Category:** <Code Bug | Configuration Issue | Infrastructure | Third-Party API | Data Issue | Expected Behavior | Unknown>
 
-**Error:** <one-line summary>
+### Error 1: <one-line summary of the first error>
 
 **Root Cause:** <clear explanation of what went wrong and why>
 
@@ -46,12 +49,18 @@ Always structure your response as follows:
 - `<repo>/<file_path>` — <function/line info>
 
 **Evidence from Logs:**
-- <key log entry that confirms the root cause>
+- <key log entry that confirms this root cause>
 
 **Suggested Fix:**
 ```
 <code change or description of what to change>
 ```
+
+### Error 2: <one-line summary of the second error> *(only if there are multiple distinct errors)*
+
+*(same sub-sections as Error 1)*
+
+---
 
 **Confidence:** <High | Medium | Low>
 
@@ -224,13 +233,17 @@ Your job is to:
 # SYSTEM_PROMPT_EXPECTED — when behavior is intentional (business rule)
 # ---------------------------------------------------------------------------
 _EXPECTED_RESPONSE_FORMAT = """
-Always structure your response as follows:
+Always structure your response as follows.
+IMPORTANT: If the logs reveal **multiple distinct validation errors** (different error messages or
+different endpoints), report EACH one as a separate numbered section. Do NOT collapse them.
 
 ## ✅ Expected Behavior Analysis
 
 **Cause Category:** Expected Behavior
 
 **Summary:** <one-line summary of what the user is experiencing>
+
+### Validation 1: <short description of the first validation failure>
 
 **Why This Is Expected:** <clear explanation of the business rule or validation being enforced, referencing the specific code that implements it>
 
@@ -239,8 +252,14 @@ Always structure your response as follows:
 - **Enforced In:** `<repo>/<file_path>` — <function/line info>
 - **Trigger Condition:** <what triggers this validation>
 
+### Validation 2: <short description> *(only if there are multiple distinct validation errors)*
+
+*(same sub-sections as Validation 1)*
+
+---
+
 **User Action Required:**
-- <step-by-step instructions for the user to resolve their issue>
+- <step-by-step instructions for the user to resolve ALL issues listed above>
 
 **Confidence:** <High | Medium | Low>
 
@@ -325,7 +344,8 @@ USER_PROMPT_TEMPLATE = """## Incident Report
 ---
 
 Please analyze the above information and provide a structured Root Cause Analysis.
-Focus on identifying the exact root cause, the specific file and function where the issue originates, and a concrete suggested fix.
+If the logs contain **multiple distinct errors** (different error messages, different status codes, or different endpoints), report each one separately — do NOT merge them into a single error.
+Focus on identifying the exact root cause for each error, the specific file and function where the issue originates, and a concrete suggested fix.
 """
 
 # ---------------------------------------------------------------------------

@@ -13,6 +13,7 @@ import os
 import re
 import sys
 import time
+from concurrent.futures import ThreadPoolExecutor, as_completed
 
 import chromadb
 from chromadb.utils.embedding_functions.sentence_transformer_embedding_function import SentenceTransformerEmbeddingFunction
@@ -217,11 +218,13 @@ def index_repo(
     collection: chromadb.Collection,
     repo_name: str,
     repo_path: str,
-) -> int:
-    """Index a single repo into ChromaDB. Returns number of chunks indexed."""
+) -> dict:
+    """Index a single repo into ChromaDB. Returns a stats dict."""
+    repo_start = time.time()
+
     if not os.path.isdir(repo_path):
         print(f"  ⚠ Repo path not found, skipping: {repo_path}")
-        return 0
+        return {"repo": repo_name, "files": 0, "chunks": 0, "elapsed": 0.0}
 
     documents: list[str] = []
     metadatas: list[dict] = []
@@ -282,8 +285,9 @@ def index_repo(
             ids=ids[start:end],
         )
 
-    print(f"  ✓ {repo_name}: {file_count} files → {total} chunks indexed")
-    return total
+    repo_elapsed = time.time() - repo_start
+    print(f"  ✓ {repo_name}: {file_count} files → {total} chunks indexed in {repo_elapsed:.1f}s")
+    return {"repo": repo_name, "files": file_count, "chunks": total, "elapsed": repo_elapsed}
 
 
 def main():
@@ -330,12 +334,42 @@ def main():
     )
 
     start = time.time()
-    total_chunks = 0
-    for repo_name, repo_path in repos_to_index.items():
-        print(f"\nIndexing {repo_name}...")
-        total_chunks += index_repo(collection, repo_name, repo_path)
+    results: list[dict] = []
+
+    if len(repos_to_index) > 1:
+        # Index repos in parallel
+        print(f"\nIndexing {len(repos_to_index)} repos in parallel...")
+        with ThreadPoolExecutor(max_workers=len(repos_to_index)) as executor:
+            futures = {
+                executor.submit(index_repo, collection, repo_name, repo_path): repo_name
+                for repo_name, repo_path in repos_to_index.items()
+            }
+            for future in as_completed(futures):
+                repo_name = futures[future]
+                try:
+                    results.append(future.result())
+                except Exception as exc:
+                    print(f"  ✗ {repo_name} failed: {exc}")
+                    results.append({"repo": repo_name, "files": 0, "chunks": 0, "elapsed": 0.0})
+    else:
+        # Single repo — no need for threading
+        for repo_name, repo_path in repos_to_index.items():
+            print(f"\nIndexing {repo_name}...")
+            results.append(index_repo(collection, repo_name, repo_path))
 
     elapsed = time.time() - start
+    total_chunks = sum(r["chunks"] for r in results)
+    total_files = sum(r["files"] for r in results)
+
+    # Summary table
+    print("\n" + "=" * 60)
+    print(f"{'Repo':<20} {'Files':>8} {'Chunks':>8} {'Time (s)':>10}")
+    print("-" * 60)
+    for r in sorted(results, key=lambda x: x["repo"]):
+        print(f"{r['repo']:<20} {r['files']:>8} {r['chunks']:>8} {r['elapsed']:>10.1f}")
+    print("-" * 60)
+    print(f"{'TOTAL':<20} {total_files:>8} {total_chunks:>8} {elapsed:>10.1f}")
+    print("=" * 60)
     print(f"\n✅ Done! {total_chunks} total chunks indexed in {elapsed:.1f}s")
     print(f"   Collection: {config.CHROMADB_COLLECTION}")
 

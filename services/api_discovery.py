@@ -1,17 +1,15 @@
 """
 API Discovery service — identifies which backend API endpoint(s) are responsible
-for a given feature/issue by matching against the actual route registry
-(parsed from solargraf-api router/index.js) and using Gemini to rank them.
+for a given feature/issue by sending the full route registry to Gemini.
 
 Flow:
   1. Load the static route registry (services/route_registry.json)
   2. Pass the full route list + issue description to Gemini
-  3. Gemini selects the most relevant route(s) from the real registry
+  3. Gemini selects the most relevant route(s) from the registry
 """
 
 import json
 import os
-import re
 from dataclasses import dataclass
 from typing import Optional
 
@@ -74,85 +72,6 @@ class APIDiscoveryService:
             self._routes = []
 
     @staticmethod
-    def _extract_keywords(text: str) -> list[str]:
-        """Extract meaningful keywords from text for route matching."""
-        # Remove URLs from text
-        text = re.sub(r"https?://[^\s]+", "", text)
-        # camelCase / PascalCase → separate words
-        text = re.sub(r"([a-z])([A-Z])", r"\1 \2", text)
-        # Split on non-alpha, lowercase, remove noise words
-        tokens = re.split(r"[^a-zA-Z]+", text.lower())
-        stop = {
-            "the", "a", "an", "is", "was", "not", "for", "to", "of",
-            "and", "in", "on", "i", "am", "are", "why", "how", "what",
-            "this", "that", "my", "me", "it", "do", "does", "able",
-            "can", "from", "with", "be", "https", "http", "com",
-            "projects", "proposals",  # generic path segments
-        }
-        return [
-            t for t in tokens
-            if t and len(t) > 2 and t not in stop
-            and not re.match(r"^[0-9a-f]+$", t)  # skip hex fragments (UUID parts)
-        ]
-
-    @staticmethod
-    def _extract_path_segments(url_path: str) -> list[str]:
-        """Extract meaningful path segments, filtering out IDs and UUIDs."""
-        segments = []
-        for seg in url_path.strip("/").split("/"):
-            if not seg:
-                continue
-            # Skip numeric IDs
-            if seg.isdigit():
-                continue
-            # Skip UUID-like strings
-            if re.match(r"^[0-9a-f]{8}-", seg, re.IGNORECASE):
-                continue
-            # Skip very long hex strings
-            if len(seg) > 20 and re.match(r"^[0-9a-f]+$", seg, re.IGNORECASE):
-                continue
-            # Skip generic resource names already in stop list
-            if seg.lower() in ("projects", "proposals"):
-                continue
-            segments.append(seg)
-        return segments
-
-    def _pre_filter_routes(
-        self, issue_description: str, url_path: str, max_routes: int = 40
-    ) -> list[dict]:
-        """Score and filter routes by keyword overlap with the issue."""
-        keywords = self._extract_keywords(issue_description)
-        if url_path:
-            keywords.extend(self._extract_keywords(url_path))
-            # Also keep raw path segments (e.g. 'permitPlanSet') for exact matching
-            keywords.extend(seg.lower() for seg in self._extract_path_segments(url_path))
-        keywords = list(dict.fromkeys(keywords))  # dedupe, preserve order
-
-        if not keywords:
-            return self._routes[:max_routes]
-
-        scored: list[tuple[int, dict]] = []
-        for route in self._routes:
-            path_lower = route["path"].lower()
-            # camelCase split on path too
-            path_expanded = re.sub(r"([a-z])([A-Z])", r"\1 \2", path_lower).lower()
-            score = sum(
-                1 for kw in keywords
-                if kw in path_lower or kw in path_expanded
-            )
-            if score > 0:
-                scored.append((score, route))
-
-        scored.sort(key=lambda x: -x[0])
-        filtered = [r for _, r in scored[:max_routes]]
-
-        print(
-            f"[APIDiscovery] Keywords: {keywords}, "
-            f"pre-filtered {len(self._routes)} → {len(filtered)} routes"
-        )
-        return filtered
-
-    @staticmethod
     def _format_route_list(routes: list[dict]) -> str:
         """Format routes into a compact string for the prompt."""
         lines = []
@@ -169,8 +88,8 @@ class APIDiscoveryService:
         """
         Discover backend API endpoints responsible for the described feature.
 
-        Uses keyword pre-filtering + Gemini to pick the best matches.
-        Falls back to keyword-only matching if Gemini is unavailable.
+        Sends the full route registry + issue description to Gemini and lets
+        it pick the most relevant routes. No local pre-filtering.
 
         Args:
             issue_description: User's description of the issue.
@@ -183,18 +102,10 @@ class APIDiscoveryService:
             print("[APIDiscovery] No route registry loaded, cannot discover APIs")
             return []
 
-        # Pre-filter to a manageable subset
-        candidate_routes = self._pre_filter_routes(issue_description, url_path)
-
-        if not candidate_routes:
-            print("[APIDiscovery] No routes matched keywords")
-            return []
-
-        # Try Gemini for intelligent ranking
-        route_list_text = self._format_route_list(candidate_routes)
+        route_list_text = self._format_route_list(self._routes)
         prompt = (
             f"{API_DISCOVERY_PROMPT}\n\n"
-            f"## Candidate Routes ({len(candidate_routes)} pre-filtered)\n"
+            f"## All Registered Routes ({len(self._routes)} total)\n"
             f"```\n{route_list_text}\n```\n\n"
             f"## Issue Description\n{issue_description}\n\n"
             f"## URL Path Context\n{url_path or 'Not provided'}"
@@ -202,18 +113,6 @@ class APIDiscoveryService:
 
         response = await self.gemini.analyze(prompt)
         apis = self._parse_gemini_response(response)
-
-        # Fallback: if Gemini failed (rate limit, parse error), use top keyword matches
-        if not apis and candidate_routes:
-            print("[APIDiscovery] Gemini failed, falling back to keyword-matched routes")
-            for route in candidate_routes[:3]:
-                apis.append(DiscoveredAPI(
-                    api_path=route["path"],
-                    method=route["methods"][0],
-                    file="router/index.js",
-                    confidence="medium",
-                    reasoning="Keyword-matched from route registry (Gemini unavailable)",
-                ))
 
         print(
             f"[APIDiscovery] Found {len(apis)} API endpoint(s) for issue: "

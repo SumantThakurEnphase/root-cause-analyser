@@ -16,8 +16,8 @@ from urllib.parse import urlparse
 
 
 # Regex to extract projectId and optional proposalId from the URL path
-_PROJECT_RE = re.compile(r"/projects/([^/]+)")
-_PROPOSAL_RE = re.compile(r"/proposals/([^/]+)")
+_PROJECT_RE = re.compile(r"/projects/([A-Za-z0-9_-]+)")
+_PROPOSAL_RE = re.compile(r"/proposals/([A-Za-z0-9_-]+)")
 
 
 @dataclass

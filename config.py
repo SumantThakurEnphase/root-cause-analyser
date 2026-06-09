@@ -51,6 +51,8 @@ class Config:
         "test-result",
         ".next",
         ".cache",
+        "solargraf-acceptance",
+        "roofgraf-e2e",
     }
 
     # SigNoz
