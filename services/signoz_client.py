@@ -21,7 +21,7 @@ class SigNozClient:
 
     _PROMPT_CHAR_BUDGET = 30_000
     MAX_CORRELATION_IDS = 100
-    CORRELATION_BATCH_SIZE = 5
+    CORRELATION_BATCH_SIZE = 15
 
     def _build_signoz_payload(self, expression: str, lookback_ms: int = _DEFAULT_LOOKBACK_MS, limit: int = 200) -> dict:
         """Build a SigNoz v5/query_range payload matching the JS issueAnalyzer format."""
@@ -32,7 +32,7 @@ class SigNozClient:
         # if start < now - 17 * 24 * 60 * 60 * 1000:
         start = now - 18 * 24 * 60 * 60 * 1000
         # if end > now - 12 * 24 * 60 * 60 * 1000:
-        end = now - 12 * 24 * 60 * 60 * 1000
+        end = now - 5 * 24 * 60 * 60 * 1000
         
         payload = {
             "schemaVersion": "v1",
@@ -73,8 +73,7 @@ class SigNozClient:
         """Make a POST request to SigNoz query_range and return parsed rows."""
         headers = {
             "Content-Type": "application/json",
-            "Authorization": f"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3ODA5OTg0MzgsImlhdCI6MTc4MDk5NjYzOCwiaWQiOiIwMTlkM2U5My1hNTljLTczMmYtODkwZS1lMDYyNGY4ZTZhOGMiLCJlbWFpbCI6InN1dGhha3VyQGVucGhhc2VlbmVyZ3kuY29tIiwicm9sZSI6IkVESVRPUiIsIm9yZ0lkIjoiMDE5Y2ZiOGQtOWE4Ny03NGQ0LTk4YjMtYjIxOWI3M2ZmOTdhIn0.2MtM6AsQlL4YXLPuZPnif1m2w6Kuca7zi_mHXpCihw8",
-            # "SIGNOZ-API-KEY": self.api_key,
+            "SIGNOZ-API-KEY": self.api_key,
         }
         print(f"[SigNoz] POST {self.api_url}")
         print(f"[SigNoz] Auth token (first 20 chars): {self.api_key[:20]}...")
