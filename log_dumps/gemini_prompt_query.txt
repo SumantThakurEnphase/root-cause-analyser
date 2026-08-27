@@ -1,0 +1,666 @@
+You are an expert Root Cause Analyser (RCA) for the Solargraf/Roofgraf platform.
+The Solargraf/Roofgraf platform consists of three main repositories:
+
+1. **solargraf-api** — Node.js microservices monorepo (Express.js, Sequelize, MongoDB, Redis).
+   - Gateway layer at `solargraf/api/implementations/`
+   - 15+ microservices in `services/`
+   - 85+ shared libraries in `libs/`
+   - CommonJS modules, Promise-based async
+
+2. **graf-apps** — Frontend applications (React, TypeScript)
+   - Apps in `apps/`
+   - Shared UI libs in `libs/`
+
+3. **design-tool** — Solar/roof design tool (TypeScript, Three.js/WebGL)
+   - Core source in `src/`
+   - Rollup-bundled library
+
+
+Your job is to:
+- Analyze the issue description and logs to determine if a **data issue** is the cause
+- Identify **which data** is missing, corrupt, or stale
+- Determine the **data source** (MongoDB, PostgreSQL, Redis cache, external API response)
+- Suggest how to fix or recover the data
+- Rate your **confidence level** (High / Medium / Low)
+
+## Data Debugging Principles
+
+### Missing Data
+- Null or undefined objects when querying the database.
+- Missing records that should have been created by a previous pipeline step.
+- Empty arrays where geometry, proposals, or project data is expected.
+
+### Corrupt Data
+- Schema migration issues: old records missing new required fields.
+- Partial writes: transaction not completed, leaving data in an inconsistent state.
+- Encoding issues: garbled strings, incorrect coordinate systems.
+
+### Stale Data
+- Redis cache returning outdated values after a DB update.
+- CDN serving old assets after a deployment.
+- Browser caching stale API responses.
+
+Always structure your response as follows.
+IMPORTANT: If the logs reveal **multiple distinct errors** (different error messages, different
+status codes, or different endpoints), report EACH one as a separate numbered error section.
+Do NOT collapse them into a single error.
+
+## 🔍 Root Cause Analysis
+
+**Cause Category:** <Code Bug | Configuration Issue | Infrastructure | Third-Party API | Data Issue | Expected Behavior | Unknown>
+
+### Error 1: <one-line summary of the first error>
+
+**Root Cause:** <clear explanation of what went wrong and why>
+
+**Affected File(s):**
+- `<repo>/<file_path>` — <function/line info>
+
+**Evidence from Logs:**
+- <key log entry that confirms this root cause>
+
+**Suggested Fix:**
+```
+<code change or description of what to change>
+```
+
+### Error 2: <one-line summary of the second error> *(only if there are multiple distinct errors)*
+
+*(same sub-sections as Error 1)*
+
+---
+
+**Confidence:** <High | Medium | Low>
+
+**Additional Notes:** <any caveats, related issues, or recommendations>
+
+
+## Incident Report
+
+**User Issue:** changed their default Sil-fab panel to the mission solar and they are reporting that it somehow wiped out all the materials for their dealers. We checked 3 separate dealer accounts and all of them had no panels or inverters listed in the settings to use in designs. While on the phone they attempted to create a new project under their child account and they received a please try again error. Not sure if that is related
+
+**Project ID:** N/A
+**Proposal ID:** N/A
+
+---
+
+## Discovered API Endpoint(s)
+
+No URL provided — using query-based search.
+
+---
+
+## SigNoz Logs
+
+No relevant logs found in SigNoz.
+
+---
+
+## Relevant Code Snippets
+
+--- Snippet 1 [solargraf-api] solargraf/test/api/projects/financing/lightreach/financialProducts/get.js :: describe (chunk 26/61, relevance: 0.6657) ---
+				financialUtils.checkIsEquipmentSupportedByLightReach({}, publicProject, {
+					id: proposalId,
+					isBatteryOnly: false,
+				})
+			).to.throw('Unable to find integrated inverter associated with AC panel used in design');
+		});
+
+		it('should reject when AC panel embedded inverter is not found in catalog', function () {
+			const publicProject = buildPublicProject([
+				acPanelWithTags('AC Panel A', [proposalId], { lightreach: ['approved'] }, 'UnknownInverter'),
+			]);
+
+			sinon.stub(catalogs.catalogItems.company, 'browseMaterials').resolves({ data: [] });
+
+			return financialUtils
+				.checkIsEquipmentSupportedByLightReach({}, publicProject, { id: proposalId, isBatteryOnly: false })
+				.then(() => {
+					throw new Error('Expected rejection');
+				})
+				.catch((error) => {
+					expect(error.message).to.equal('Unable to find integrated inverter associated with AC panel used in design');
+				});
+		});
+
+		it('should not call catalog API when proposal has no AC panel', function () {
+			const publicProject = buildPublicProject([
+				matWithTags('Standard Panel', [proposalId], { lightreach: ['approved'] }),
+			]);
+
+			const browseSpy = sinon.spy(catalogs.catalogItems.company, 'browseMaterials');
+
+			return financialUtils
+				.checkIsEquipmentSupportedByLightReach({}, publicProject, { id: proposalId, isBatteryOnly: false })
+				.then(() => {
+					expect(browseSpy.called).to.equal(false);
+				});
+		});
+	});
+}
+
+--- Snippet 2 [graf-apps] apps/solargraf/src/views/components/project/proposals/ManageOptionsDialog.js :: imports_and_setup (chunk 13/69, relevance: 0.6482) ---
+} else if (hasSolarBatteryTransition) {
+      return intl.newSystemTransitionHeader();
+    }
+  };
+  const fetchManualProductionData = isBatteryOnlyProposal || isSystemExpansionProject;
+  const { data: existingProductionData } = useExistingProductionData(project.id, {
+    enabled: fetchManualProductionData,
+    refetchOnMount: 'always',
+  });
+
+  const { data: storageSettingsData } = useProjectStorageSettings(String(project.id));
+
+  const editStorageSettingsMutation = useUpdateStorageSettings(String(project.id));
+
+  const editProjectProposalExtraCost = useEditProjectProposalExtraCost(String(project.id));
+  const deleteProjectProposalExtraCost = useDeleteProjectProposalExtraCost(String(project.id));
+
+--- Snippet 3 [graf-apps] apps/solargraf/src/views/pages/projects/designTool/utils/SystemEstimator.ts :: if (chunk 16/34, relevance: 0.6335) ---
+if (this.isClassicOrBatteryOnlyProject) {
+      const classicSortedArrays = selectedProposalRoofPlanes.sort((a, b) => b.count - a.count);
+      panels = materials.panel.find((panel) => panel.id === classicSortedArrays[0]?.panel_id);
+    }
+
+--- Snippet 4 [graf-apps] apps/solargraf/src/views/components/financial/templates/templateTwo/sections/systemDesign/SystemDesign.js :: imports_and_setup (chunk 7/34, relevance: 0.6262) ---
+}
+
+  if (
+    isBDTNewUXEnabled &&
+    storageSettings?.batteryProfile === BatteryProfiles.savingsOnElectricityBill &&
+    (isNetherlandProject || gridType === 'nem3')
+  ) {
+    batteryProfile = intl.savingsWithExport();
+  }
+  const showBatteryIndoorOutdoorToggle = isEnphase && quoteSettings.show_battery_image_on_proposal;
+
+  const updatedManufacturers = selectedProposalMaterials.batteryBackup.map((battery) => ({
+    ...battery,
+    manufacturerId: battery.Manufacturer?.id,
+  }));
+  const sortedManufacturerNames = sortAndMapManufacturers(updatedManufacturers);
+  const storage = sortedManufacturerNames
+    .map((battery) => `${battery.count} x ${battery.name.split('for')[0]}`)
+    .join(', ');
+  const operatingPower = selectedProposalMaterials.batteryBackup.reduce((prev, curr) => {
+    const powerRating = curr.power_rating ?? 0;
+    return prev + Math.round(powerRating * curr.count) / 1000;
+  }, 0);
+
+  useEffect(() => {
+    setShowShadingMap(false);
+  }, [quoteSettings.show_shading_picture]);
+
+--- Snippet 5 [solargraf-api] solargraf/api/utils/financialUtils/index.js :: imports_and_setup (chunk 57/68, relevance: 0.6251) ---
+}
+												if (
+													this.isProposalSolarOnly(publicProject, proposal) &&
+													this.isGoodleapProductSolarPlusBattery(option)
+												) {
+													errors.push({
+														error: 'Product is Solar + Battery so we need battery for calculations',
+														financialOptionId: option.id,
+														financialOptionName: option.name,
+														proposalId: proposal.id,
+													});
+													return;
+												}
+												return this.getGoodleapTpoApplicationCreatedAt(resources, context, publicProject).then(
+													(applicationCreatedAt) => {
+														let bodyAttributes = this.getGoodleapPricingQuery(
+															selectedAnalysis,
+															option,
+															publicProject,
+															proposal,
+															applicationCreatedAt
+														);
+														return this.getGoodleapLeaseOptionsQuery(context, publicProject, proposal).then(
+															(leaseOptionsQuery) => {
+																return goodleapApi
+																	.getLeaseOptions(context, publicProject.company_id, leaseOptionsQuery)
+																	.then((leaseOptions) => {
+																		// Check if financial option belongs to Fetch TPO response for selected proposal, If not then filter out that financial option from Webquote
+																		if (
+																			leaseOptions.find(
+																				(leaseOption) =>
+																					option.financing_partner_metadata.categoryId === leaseOption.categoryId &&
+																					option.financing_partner_metadata.offerId === leaseOption.offerId &&
+																					option.financing_partner_metadata.partnerId === leaseOption.offerId
+																			)
+																		) {
+																			return goodleapApi
+																				.getPaymentsTpo(context, publicProject.company_id, bodyAttributes, true)
+																				.then((leaseCalculatorData) => {
+																					const systemCost = selectedAnalysis.analysis.leaseCost || 0;
+																					const systemSizeWatt = 1000 * selectedAnalysis.analysis.systemSize || 0; // DC
+																					const pricePerWatt = systemSizeWatt ? systemCost / systemSizeWatt : 0; // price per watt
+
+																					const pricePerWattSaved = this.getSavedPpw(option, proposal.id);
+																					const kWhRateSaved = this.getSavedkWhRate(option, proposal.id);
+
+																					let selectedPricing = this.getGoodleapNearestPricing(
+																						leaseCalculatorData,
+																						kWhRateSaved,
+																						pricePerWattSaved || pricePerWatt
+																					);
+
+																					return goodleapApi
+																						.calculateSavingsScheduleRateLimit(context, publicProject.company_id, {
+																							publicProject,
+																							selectedAnalysis,
+																							proposal,
+																							financialOption: option,
+																							solarRate: selectedPricing?.productionRate?.value || 0, // solar rate
+																							firstYearMonthlyPayment:
+																								selectedPricing?.firstYearMonthlyPayment?.value || 0,
+																						})
+																						.then((allowedSolarRates) => {
+																							bodyAttributes = this.getGoodleapPricingQuery(
+																								selectedAnalysis,
+																								option,
+																								publicProject,
+																								proposal,
+																								applicationCreatedAt,
+																								allowedSolarRates
+																							);
+																							return goodleapApi
+																								.getPaymentsTpo(context, publicProject.company_id, bodyAttributes, true)
+																								.then((leaseCalculatorDataNew) => {
+																									selectedPricing = this.getGoodleapNearestPricing(
+																										leaseCalculatorDataNew,
+																										kWhRateSaved,
+																										pricePerWattSaved || pricePerWatt
+																									);
+
+
+--- Snippet 6 [solargraf-api] libs/financing/goodleap/goodleapDTO.js :: imports_and_setup (chunk 85/144, relevance: 0.6177) ---
+}
+		}
+
+		const inverterModel = [systemDesignInfo.inverterModel];
+
+		const totalSolarResourceFraction = getWeightedTotalSolarResourceFraction(roofPlaneShadingData);
+
+		const { panel, inverter } = publicProject.Materials;
+
+		let selectedInverter = inverter.find(
+			(i) => i.tags?.goodleap?.includes(systemDesignInfo.inverterModel) || i.name === systemDesignInfo.inverterModel
+		);
+
+		const acPanel = panel.find((p) => p.is_ac_module);
+		const isAcModule =
+			systemDesignInfo.isAcModule ||
+			Boolean(acPanel && !selectedInverter && acPanel.inverter_model === systemDesignInfo.inverterModel);
+
+--- Snippet 7 [solargraf-api] solargraf/test/api/projects/financing/enfin/financingProducts/get.js :: describe (chunk 80/84, relevance: 0.6171) ---
+describe('checkEnfinProductSupported with AC panels', function () {
+		it('should throw when AC panel has no embedded inverter', function () {
+			const publicProject = buildPublicProject([acPanel({ inverterModel: null })]);
+			publicProject.Settings = {
+				ProjectConnections: [],
+				Pricing: { ProjectConnection: { genability_lse_name: '', genability_lse_id: '', genability_tariff_id: '' } },
+			};
+
+			expect(() => financialUtils.checkEnfinProductSupported({}, publicProject, {}, {}, proposalId)).to.throw(
+				'Unable to find integrated inverter associated with AC panel used in design'
+			);
+		});
+
+		it('should not call catalog API when proposal has no AC panel', function () {
+			const mockContext = { logger: { error: sinon.stub() } };
+			const publicProject = buildPublicProject([standardPanel()]);
+			publicProject.Settings = {
+				ProjectConnections: [],
+				Pricing: { ProjectConnection: { genability_lse_name: 'Test LSE', genability_lse_id: '1234' } },
+			};
+			publicProject.proposals = [{ id: proposalId }];
+
+			const browseSpy = sinon.spy(catalogs.catalogItems.company, 'browseMaterials');
+
+			return financialUtils.checkEnfinProductSupported(mockContext, publicProject, {}, {}, proposalId).then(() => {
+				expect(browseSpy.called).to.equal(false);
+			});
+		});
+	}
+
+--- Snippet 8 [graf-apps] apps/solargraf/src/translations/en/StoragePricing.ts :: module (chunk 1/1, relevance: 0.6167) ---
+export default {
+  batteryConfiguration: 'Battery configuration',
+  batteryPriceGridTied: 'Battery price (Grid-Tied)',
+  close: 'Close',
+  defaultBatteryForNewProjects: 'Default battery for new projects',
+  gridTiedPricing: 'Grid tied pricing',
+  gridTiedPricingInfo:
+    'Turning off the toggle will erase pricing informations for grid-tied systems. Are you sure you want to proceed?',
+  operationNotAllowed: 'Operation not allowed',
+  pleaseModifyTheDefaultBattery: 'Please modify the default battery before removing pricing.',
+  sNo: 'S No.',
+  storageBothConfigurationErrorText: 'Pricing cannot be 0 for only one configuration type.',
+  storagePriceTitle: 'Battery pricing',
+  storagePriceResetBtn: 'Reset all',
+  storagePriceSaveBtn: 'Save pricing',
+  storagePriceEditPrice: 'Edit pricing',
+  storagePriceDialogTitle: 'Incomplete information',
+  storagePriceCancelBtn: 'Cancel',
+  storagePriceOkBtn: 'Ok',
+  storagePriceDialogContent: 'Please fill prices for all configurations before proceeding.',
+  storagePriceAlert: 'Battery design tool can be used only for configurations with pricing set up.',
+  storagePriceErrorText:
+    'Pricing for a battery configuration with higher capacity should be more than its lower capacity counterparts.',
+  unsavedChangesDialogContent:
+    'There are unsaved changes to your battery pricing. Would you like to save your changes before returning to the previous page?',
+  unsavedChangesDialogTitle: 'Unsaved changes',
+  unsavedChangesDiscardBtn: 'Discard changes',
+  unsavedChangesSaveBtn: 'Save',
+  series: 'Series',
+  tableColumnDefaultTooltip:
+    'The default battery range selected here will be selected by default when you open the battery design tool or opt to design a system with a battery within the solar design tool',
+  radioDisabledTooltip:
+    'A battery series must be available for use and have pricing defined before it can be the default',
+  radioDisabledByPermissionTooltip: 'You do not have permission to manage company settings',
+  defaultToggleDisabledTooltip:
+    'Please choose a new default battery series before making this unavailable in the battery design tool',
+  toggleDisabledByPriceTooltip:
+    'You must define pricing for this battery series before making it available in the battery design tool',
+  toggleSaving: 'Saving...',
+};
+
+
+--- Snippet 9 [graf-apps] apps/solargraf/src/views/pages/projects/designTool/utils/createProjectRoofPlanesPayload.ts :: createProjectRoofPlanesPayload (chunk 2/4, relevance: 0.6127) ---
+const createProjectRoofPlanesPayload = (
+  models: ModelsDTO,
+  project: Project,
+  proposal: Proposal,
+  companyMaterials: Materials,
+  projectInverters: Inverter[]
+) => {
+  const { panelArrays, roofOutlines } = models;
+  const panelArrayModelsWithoutGhostPanels = cloneDeep(panelArrays);
+  Object.values(panelArrayModelsWithoutGhostPanels).forEach((panelArray) => {
+    Object.values(panelArray.ghostPanels).forEach((panel) => {
+      delete panelArray.panels[panel.getId()];
+      if (Object.values(panelArray.panels).length === 0) {
+        delete panelArrayModelsWithoutGhostPanels[panelArray.id];
+      }
+    });
+    panelArray.ghostPanels = {};
+    if (Object.values(panelArray.panels).length === 0)
+      delete panelArrayModelsWithoutGhostPanels[panelArray.id];
+  });
+
+  const settings =
+    DesignToolData.getInstance().settings || transformLossSettings(project, proposal.id);
+
+  const microinvertersQuantity = Object.values(panelArrayModelsWithoutGhostPanels).reduce(
+    (sum, panelArray) => {
+      const inverter = projectInverters.find((i) => i.parent_id === panelArray.inverterMaterialId);
+      const isMicroInverter = inverter?.type === InverterType.micro;
+      return sum + Number(isMicroInverter) * panelArray.inverterQuantity;
+    },
+    0
+  );
+
+  return Object.values(panelArrayModelsWithoutGhostPanels).map((panelArray) => {
+    let dcToAcRatio = 0;
+    const panelCount = Object.values(panelArray.panels).length;
+    // Loose ID equality: panelArray ids may arrive stringified (orchestrator
+    // → design-tool handoff round-trips through JSON) while the catalog/inverter
+    // arrays carry their original numeric ids. A strict === would silently miss
+    // and downstream `Panel.size_in_watts` reads would crash.
+    const panel = companyMaterials.panel.find(
+      (p) => String(p.id) === String(panelArray.panelMaterialId)
+    );
+    const inverter = projectInverters.find(
+      (i) => String(i.parent_id) === String(panelArray.inverterMaterialId)
+    );
+
+    // Compute DC to AC ratio for microinverters with a power rating
+    if (panel && inverter?.power_rating) {
+      dcToAcRatio = microinverterDcToAcRatio(
+        panel,
+        panelCount,
+        inverter,
+        panelArray.inverterQuantity
+      );
+    }
+
+    return {
+      id: panelArray.id,
+      public_id: panelArray.id,
+      proposal_id: proposal.id,
+      panel_id: panelArray.panelMaterialId,
+      project_inverter_id: inverter?.id,
+      count: panelCount,
+      inverter_count: panelArray.inverterQuantity,
+      dc_ac_ratio: dcToAcRatio || settings.dc_ac_ratio,
+      ground_coverage_ratio: settings.ground_coverage_ratio,
+      mount_type: transformPanelArrayMountingType(panelArray.mountingType),
+      offset_type: config.enum.ProjectRoofPlane.offsetType[panelArray.offsetType],
+      panel_orientation: panelArray.panelOrientation,
+      // SG-6822: Legacy code to support old API
+      hourly_beam_irradiance_shade_ratio: panelArray.hourlyBeamIrradianceShadeRatio,
+      // SG-6822: Legacy code to support old API
+      irradiance_shade_ratio: {
+        hourlyBeamIrradianceShadeRatio: panelArray.hourlyBeamIrradianceShadeRatio,
+        diffuseIrradianceShadeRatio: panelArray.diffuseIrradianceShadeRatio,
+      },
+      material_type: panelArray.roofMaterialType,
+      area: 0,
+      ...getPitchAndAzimuthForRoofPlane(panelArray, roofOutlines),
+      Losses: {
+        ...settings.Losses,
+        // SG-26590: Mismatch loss should be overridden to 0% for micro-inverter systems
+        mismatch: microinvertersQuantity > 0 ? 0 : settings.Losses.mismatch,
+        shading: project.Settings.use_advanced_design_tool
+          ? 1 - panelArray.solarAccessValue
+          : settings.Losses.shading,
+      },
+      Panel: panel,
+      Inverter: inverter,
+      submodule_data_filename: DesignToolData.getInstance().panelShadingReport
+        ?.submoduleDataFilename,
+    };
+  });
+}
+
+--- Snippet 10 [graf-apps] apps/solargraf/src/views/pages/projects/designTool/hooks/useAddProjectProposalDrawingBDT.tsx :: imports_and_setup (chunk 21/26, relevance: 0.6118) ---
+}
+    if (Object.keys(projectSettingsPayload).length > 0) {
+      editProjectSettings.mutate(projectSettingsPayload);
+    }
+    const iqMeterCollarAdminMaterial = adminMaterials.acDisconnect.find(
+      (adminMaterial) => adminMaterial.name === EnphaseConfigBOM.IQMeterCollar
+    );
+
+    const materialsToFlatten = {
+      ...selectedProposalMaterials,
+      batteryBackup: storageMaterials?.batteryBackup || [],
+      storageConfiguration: storageMaterials?.storageConfiguration || [],
+
+      // ex: IQ System Controller
+      transferSwitch:
+        systemControllerQty > 0 && adminMaterials.transferSwitch.length > 0
+          ? [{ parent_id: adminMaterials.transferSwitch[0].id, count: systemControllerQty }]
+          : [],
+      criticalLoadCenter:
+        loadControllerQty > 0 && adminMaterials.criticalLoadCenter.length > 0
+          ? [{ parent_id: adminMaterials.criticalLoadCenter[0].id, count: loadControllerQty }]
+          : [],
+      acDisconnect:
+        iqMeterCollarQty > 0 && iqMeterCollarAdminMaterial
+          ? [{ parent_id: iqMeterCollarAdminMaterial.id, count: iqMeterCollarQty }]
+          : [],
+    };
+    const flattenedMaterials = Object.values(materialsToFlatten).reduce<Material[]>(
+      (acc, material: Material[]) => acc.concat(material as Material[]),
+      []
+    );
+
+    addProjectProposalMaterials.mutate([flattenedMaterials as Material[], String(proposal.id)], {
+      onSuccess: (projectMaterials) => {
+        const proposalStorageConfiguration = projectMaterials.storageConfiguration.find(
+          (configuration) => Boolean(configuration.proposal_ids.includes(proposal.id))
+        );
+
+        const proposalBatteryBackups = projectMaterials.batteryBackup.filter(
+          (batteryBackup) => batteryBackup.proposal_ids.includes(proposal.id) as boolean
+        );
+
+        const hasBatterySystem = Boolean(proposalBatteryBackups.length);
+        const storageSizeInKWh = hasBatterySystem
+          ? getStorageUsableCapacityInKwh(proposalBatteryBackups)
+          : 0;
+
+        const isZeroPriceTranformationRequired = (): boolean => {
+          return (
+            !DesignSystem.instance?.exportBatteryState().storageConfigurationId &&
+            !proposalStorageConfiguration
+          );
+        };
+
+        let proposalPayload = {};
+        /**
+         * case 1 - no storage configuration selected
+         * case 2 - storage configuration selected and has no customStoragePricePerKwh
+         *          - if no price change PUT API is not required
+         * case 3 - storage configuration selected and has customStoragePricePerKwh
+         */
+        if (isZeroPriceTranformationRequired()) {
+          proposalPayload = {
+            ...proposalPayload,
+            storagePrice: 0,
+          };
+        } else if (saveStorage && proposalStorageConfiguration) {
+
+--- Snippet 11 [solargraf-api] libs/financing/goodleap/goodleapDTO.js :: getPaymentsTpo (chunk 143/144, relevance: 0.8511) ---
+getPaymentsTpo(monthlyPayments) {
+		return monthlyPayments.payload;
+	}
+
+--- Snippet 12 [solargraf-api] libs/financing/goodleap/goodleapDTO.js :: getWeightedTotalSolarResourceFraction (chunk 2/144, relevance: 0.8415) ---
+function getWeightedTotalSolarResourceFraction(roofPlaneShadingData) {
+	let totalSolarResourceFraction = 0;
+	let totalPanelCount = 0;
+	roofPlaneShadingData.forEach((planeShadingData) => {
+		totalSolarResourceFraction += planeShadingData.panelShading.tsrfYearly * planeShadingData.count;
+		totalPanelCount += planeShadingData.count;
+	});
+	totalSolarResourceFraction /= totalPanelCount;
+	return totalSolarResourceFraction;
+}
+
+--- Snippet 13 [graf-apps] libs-MUI4/sg-shared/components/fields/PhoneInputField/index.tsx :: imports_and_setup (chunk 4/8, relevance: 0.8279) ---
+};
+
+  useEffect(() => {
+
+--- Snippet 14 [graf-apps] libs/sg-shared/components/fields/PhoneInputField/index.tsx :: imports_and_setup (chunk 4/8, relevance: 0.8279) ---
+};
+
+  useEffect(() => {
+
+--- Snippet 15 [graf-apps] apps/roofgraf/src/modules/quotesRoofing/components/Quote/QuoteSectionWrapper.js :: imports_and_setup (chunk 6/14, relevance: 0.8279) ---
+};
+
+  useEffect(() => {
+
+--- Snippet 16 [graf-apps] apps/roofgraf/src/modules/users/state/usersEpics.js :: if (chunk 6/20, relevance: 0.8259) ---
+if (resolve) {
+            resolve();
+          }
+
+--- Snippet 17 [solargraf-api] libs/financing/goodleap/implementations/goodleapV2.js :: imports_and_setup (chunk 40/63, relevance: 0.8198) ---
+},
+	// Return List of Available LeaseOptions
+
+--- Snippet 18 [design-tool] src/ui/utils/BatteryStorageConstants.ts :: module_tail (chunk 3/3, relevance: 0.8151) ---
+;
+
+const sortAndMapManufacturers = (manufacturers: Array<BatteryMaterial>): Array<BatteryMaterial> => {
+  return sortBy(manufacturers, (manufacturer: BatteryMaterial) => {
+    return manufacturer?.getManufacturerId() === BatteryManufacturers.Enphase
+      ? rank[manufacturer.getStorageGroup()]
+      : rank[manufacturer.getManufacturerId()];
+  });
+};
+
+export { sortAndMapManufacturers, sortManufacturersOnly };
+
+--- Snippet 19 [solargraf-api] libs/financing/goodleap/implementations/mock.js :: calculateSavingsScheduleRateLimit (chunk 39/68, relevance: 0.8119) ---
+calculateSavingsScheduleRateLimit() {
+		return Promise.resolve({
+			calculatedRate: {
+				unit: 'DOLLAR_PER_kWh',
+				value: 1,
+			},
+			maxAllowedRate: {
+				unit: 'DOLLAR_PER_kWh',
+				value: 1,
+			},
+			minAllowedRate: {
+				unit: 'DOLLAR_PER_kWh',
+				value: 1,
+			},
+			lookbackYearsEvaluated: 0.1,
+			batteryCostAdded: true,
+		});
+	}
+
+--- Snippet 20 [solargraf-api] libs/financing/goodleap/goodleapDTO.js :: calculateSavingsScheduleRateLimitRequest (chunk 133/144, relevance: 0.8095) ---
+calculateSavingsScheduleRateLimitRequest(
+		publicProject,
+		selectedAnalysis,
+		proposal,
+		financialOption,
+		solarRate,
+		firstYearMonthlyPayment
+	) {
+		const systemSize = selectedAnalysis.analysis.systemSize || 0;
+
+		let firstYearProduction = 0;
+		const startMonth = selectedAnalysis.analysis.startMonth || 0;
+		if (startMonth) {
+			for (let idx = startMonth; idx < 12; idx++) {
+				firstYearProduction += selectedAnalysis.lifetime[0].monthly[idx].solarProduction;
+			}
+			for (let idx = 0; idx < startMonth; idx++) {
+				firstYearProduction += selectedAnalysis.lifetime[1].monthly[idx].solarProduction;
+			}
+		} else {
+			firstYearProduction = selectedAnalysis.lifetime[0].energy;
+		}
+		if (firstYearProduction < 1000) {
+			throw new ValidationError({ errors: ['estimatedAnnualProduction must be greater than or equal to 1000'] });
+		}
+
+		const projectConnection =
+			publicProject.Settings.ProjectConnections.find((projConn) => projConn.proposal_id === proposal.id) ||
+			publicProject.Settings.Pricing.ProjectConnection;
+		const savingsSchedule = utils.formatSavingsSchedule(
+			selectedAnalysis,
+			projectConnection,
+			solarRate,
+			financialOption.rate_escalator,
+			firstYearMonthlyPayment
+		);
+		return {
+			firstYearEstimatedProduction: firstYearProduction,
+			systemSize: {
+				unit: 'kW',
+				value: systemSize,
+			},
+			offerId: financialOption.financing_partner_metadata.offerId,
+			batteryCost: {
+				type: 'USD',
+				value: proposal.storagePrice,
+			},
+			fullTermSchedule: savingsSchedule.fullTermSchedule,
+		};
+	}
+
+---
+
+Please analyze the above information and provide a structured Root Cause Analysis.
+If the logs contain **multiple distinct errors** (different error messages, different status codes, or different endpoints), report each one separately — do NOT merge them into a single error.
+Focus on identifying the exact root cause for each error, the specific file and function where the issue originates, and a concrete suggested fix.

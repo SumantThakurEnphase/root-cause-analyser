@@ -1,0 +1,7 @@
+Total logs: 0
+Raw JSON size: 2 chars
+Formatted prompt size: 33 chars
+
+--- Top 20 largest logs (by extracted field size) ---
+
+--- Size distribution ---

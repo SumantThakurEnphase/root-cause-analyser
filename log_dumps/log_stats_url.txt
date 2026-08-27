@@ -1,0 +1,33 @@
+Total logs: 190
+Raw JSON size: 269,114 chars
+Formatted prompt size: 30,022 chars
+
+--- Top 20 largest logs (by extracted field size) ---
+  Log #43: 3,084 chars | severity=Error | endpoint=
+  Log #1: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #4: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #6: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #8: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #10: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #12: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #14: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #16: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #18: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #20: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #22: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #24: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #26: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #28: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #30: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #32: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #34: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #36: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  Log #38: 1,199 chars | severity=error | endpoint=/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+
+--- Size distribution ---
+  Min: 257  Max: 3,084  Avg: 497
+  <100: 0 logs
+  100-500: 106 logs
+  500-1000: 63 logs
+  1000-2000: 20 logs
+  >2000: 1 logs

@@ -1,0 +1,193 @@
+[1784625904538000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: 88a8f3da-9227-457c-939b-e89978a39d1b
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784625232033000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: 1994a63f-f51e-469d-b4e0-b7acf5a8e918
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784624741867000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: 775c2884-9a27-48c3-95dc-4aa9504eb15d
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784624412151000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: e145c151-7725-4239-baa5-7bc32040790a
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784624329782000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: 08e3ecf3-85b7-4342-93c0-331a787ee3a7
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784624303915000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: c76d27d4-a61b-4314-b6ca-436fdf4942f9
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784624284029000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: 0dd801cc-49b8-46d3-a157-05bab684fede
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784624086993000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: c952d23c-b9f4-4c0d-a7c6-37a33bd665c9
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784623751251000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: e48323ce-9632-4d01-80bd-c685258f2b34
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784623695734000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: 1a28444d-0d00-4579-8923-dccde913a9c8
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784623630740000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: f8176810-61f4-4509-a458-305e235514df
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784623559093000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: 6767ca58-b03b-425c-866b-9287ce43c4d2
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784623555373000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: a8f2291f-50cb-4e15-a226-af7a79425122
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784623515800000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: b30bc90c-883a-423b-bb5f-153df7714389
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784623448397000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: 6f453842-67ed-424c-ad4d-7d2fc0b0041c
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784623359790000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: 07369927-e219-4128-af5d-bc8a70c878da
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784623326367000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: a00fba8a-2728-4f84-8b11-f489ec850161
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784623318871000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: ffec3701-c5bd-42fa-89b8-add00df296af
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784623256676000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: d0de7622-13b5-4c76-ba67-c00748a1c64f
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784623153955000000] [error] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: 4d4c48f7-3291-4861-bc14-a1e65fe5ab00
+  Message: 5xx Server Error: Cannot read properties of undefined (reading 'map')
+  Error: {"message":"Cannot read properties of undefined (reading 'map')","stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:346:7\n    at Array.forEach (\u003canonymous\u003e)\n    at /home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:248:27\n    at Array.forEach (\u003canonymous\u003e)\n    at addSetbacksAndPathwaysBoundaries (/home/node/code/libs/greenthink/utils/intersectPathwayAndSetbacksPolygons.ts:241:30)\n    at processTicksAndRejections (node:internal/process/task_queues:105:5)\n    at getSiteGeometry (/home/node/code/libs/greenthink/utils/helpers.js:118:3)\n    at Object.requestDTO [as execute] (/home/node/code/libs/greenthink/permitPlanDTO.js:326:7)\n    at Object.getPermitPlan (/home/node/code/libs/greenthink/index.js:78:19)","type":"TypeError"}
+
+[1784625852091603600] [Error] [GtdWebApi]
+  CorrelationId: 55e11735-c354-4e07-b48f-dda22dc57d96
+  Message: Object deserialization failed. Error message: 'Required property 'necYear' not found in JSON. Path 'customizations.ahj', line 1, position 64895.'. Stack trace:    at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.EndProcessProperty(Object newObject, JsonReader reader, JsonObjectContract contract, Int32 initialDepth, JsonProperty property, PropertyPresence presence, Boolean setDefaultValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateObject(Object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty member, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateObject(Object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty member, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.PopulateObject(Object newObject, JsonReader reader, JsonObjectContract contract, JsonProperty member, String id)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateObject(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.CreateValueInternal(JsonReader reader, Type objectType, JsonContract contract, JsonProperty member, JsonContainerContract containerContract, JsonProperty containerMember, Object existingValue)
+   at Newtonsoft.Json.Serialization.JsonSerializerInternalReader.Deserialize(JsonReader reader, Type objectType, Boolean checkAdditionalContent)
+   at Newtonsoft.Json.JsonSerializer.DeserializeInternal(JsonReader reader, Type objectType)
+   at Newtonsoft.Json.JsonConvert.DeserializeObject(String value, Type type, JsonSerializerSettings settings)
+   at GtdWebApi.Controllers.FullDesignController.Post(Object sgFullDesignRequest) in /src/GtdWebApi/GtdWebApi/Controllers/FullDesignController.cs:line 90
+
+[1784625904539000000] [info] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: 88a8f3da-9227-457c-939b-e89978a39d1b
+  Message: 500 (322 ms) POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+
+[1784625232034000000] [info] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: 1994a63f-f51e-469d-b4e0-b7acf5a8e918
+  Message: 500 (185 ms) POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+
+[1784624741868000000] [info] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: 775c2884-9a27-48c3-95dc-4aa9504eb15d
+  Message: 500 (26444 ms) POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+
+[1784624412152000000] [info] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: e145c151-7725-4239-baa5-7bc32040790a
+  Message: 500 (261 ms) POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+
+[1784624329783000000] [info] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: 08e3ecf3-85b7-4342-93c0-331a787ee3a7
+  Message: 500 (196 ms) POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+
+[1784624303916000000] [info] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: c76d27d4-a61b-4314-b6ca-436fdf4942f9
+  Message: 500 (229 ms) POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+
+[1784624284030000000] [info] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: 0dd801cc-49b8-46d3-a157-05bab684fede
+  Message: 500 (242 ms) POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+
+[1784624086995000000] [info] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: c952d23c-b9f4-4c0d-a7c6-37a33bd665c9
+  Message: 500 (222 ms) POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+
+[1784623751252000000] [info] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: e48323ce-9632-4d01-80bd-c685258f2b34
+  Message: 500 (2298 ms) POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+
+[1784623695735000000] [info] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: 1a28444d-0d00-4579-8923-dccde913a9c8
+  Message: 500 (153 ms) POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+
+[1784623630741000000] [info] [solargraf-gateway]
+  Endpoint: POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+  CorrelationId: f8176810-61f4-4509-a458-305e235514df
+  Message: 500 (194 ms) POST /projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d/permitPlan
+
+… (136 more logs omitted, budget reached)

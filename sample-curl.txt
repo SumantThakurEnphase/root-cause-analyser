@@ -1,0 +1,57 @@
+curl -X POST https://monthly-ata-rainbow-stewart.trycloudflare.com/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"query": "why i am not able to create permit plan for https://app-develop.solargraf.com/projects/448312/proposals/8838cedb-53b7-4860-893f-f90f8954d377/permitPlanSet"}'
+
+
+curl -X POST http://localhost:3978/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"query": "i have a tesla power wall why is the battry and inverter ar mis mached"}'
+
+curl -X POST http://localhost:3978/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Saved success message dialog is coming up on clicking generate plan set page \n Steps:\nAdd a design\ncomplete all the required electrical components \nGo to planset page\nClick Generate permit plan"}'
+
+curl -X POST http://localhost:3978/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Context and actual behaviour\nIn prod, customer chats are being routed to the General group. This group does not have automatic assignment enabled - if a customer pings in a query, a CS agent will have to manually pick up the chat from the queue.\nExpected behaviour\nThe chat should automatically be assigned to the CS agent, so any chats are not missed.\nCorrect group to route the chats to - TBC by CS"}'
+
+
+curl -X POST http://localhost:3978/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Why my consumption in design-tool widget shows a higher value when creating the project using agentic bot vs when i create it manually"}'
+
+curl -X POST http://localhost:3978/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"query": "SolarTech are reporting continuous wheel of death when accessing Enfin application page: https://app.solargraf.com/projects/3180983/financing/enfin Products are imported/monthly payment is selected"}'
+
+curl -X POST http://localhost:3978/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"query": "https://app.solargraf.com/projects/3340513/proposals/1e0661a3-238a-4ec7-bb8e-b90fb1ab96c0/utility I am unable to edit the custom utility for this project due to 503 error from project consumptions"}'
+
+curl -X POST http://localhost:3978/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Overview/Proposal image shows incorrect number of batteries - https://app.solargraf.com/projects/3130866"}'
+
+curl -X POST https://hockey-beta-aaron-lexmark.trycloudflare.com/api/analyse \
+  -H "Content-Type: application/json" \
+  -d '{"query": "https://app.solargraf.com/projects/3327644 AVL for Enfin is failing."}'
+
+curl -X POST http://localhost:3978/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"query": "changed their default Sil-fab panel to the mission solar and they are reporting that it somehow wiped out all the materials for their dealers. We checked 3 separate dealer accounts and all of them had no panels or inverters listed in the settings to use in designs. While on the phone they attempted to create a new project under their child account and they received a please try again error. Not sure if that is related"}'
+
+curl -X POST http://localhost:3978/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Permit plan set download button is not showing in project overview page for project -  https://app.solargraf.com/projects/3373428"}'
+
+curl -X POST http://localhost:3978/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"query": "Why is plan set generation failing for -  https://app.solargraf.com/projects/3373428/proposals/cd0ff923-077d-48c5-9b05-cbfb2cde9ff5"}'
+
+curl -X POST http://localhost:3978/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"query": "User has reported that Concert is being filtered out due to multiple panels on the project, even though only one panel type is present. - https://app.solargraf.com/projects/3368568/proposals/7310496e-edd6-4dd8-b587-e12f51887ef3"}'
+
+curl -X POST http://localhost:3978/api/analyze \
+  -H "Content-Type: application/json" \
+  -d '{"query": "one of our services team member is not able to download permit package for one of the design. can you please check this on priority. https://app.solargraf.com/projects/3380452/proposals/a4f9e4c4-fec7-410a-bda8-2674a4f3fc1d"}'

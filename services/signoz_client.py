@@ -27,12 +27,12 @@ class SigNozClient:
         """Build a SigNoz v5/query_range payload matching the JS issueAnalyzer format."""
         now = int(time.time() * 1000)
         # make start and end between 12 and 17
-        # start = now - lookback_ms
-        # end = now
+        start = now - lookback_ms
+        end = now
         # if start < now - 17 * 24 * 60 * 60 * 1000:
-        start = now - 18 * 24 * 60 * 60 * 1000
+        # start = now - 18 * 24 * 60 * 60 * 1000
         # if end > now - 12 * 24 * 60 * 60 * 1000:
-        end = now - 5 * 24 * 60 * 60 * 1000
+        # end = now - 5 * 24 * 60 * 60 * 1000
         
         payload = {
             "schemaVersion": "v1",
